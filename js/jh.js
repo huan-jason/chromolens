@@ -127,16 +127,40 @@ function closeTrack() {
     $(elem).css("display", "none");
 }
 
+// ================
+
 function changeScale() {
     alert("Change Scale");
 }
 
-function changeColour() {
-    $("#id_color_modal").css("display", "block");
+// ================
+
+function createLabel(text)
+{
+    var svgNS = "http://www.w3.org/2000/svg";
+    var label = document.createElementNS(svgNS, "text");
+    label.setAttributeNS(null,"x",      330);
+    label.setAttributeNS(null,"y",      15);
+    label.setAttributeNS(null,"class",  "track_label");
+    label.textContent = text;
+    return label;
 }
 
 function changeLabel() {
-    alert("Change Label");
+    var label = prompt("Label:","Dr. T the Great (who tickles cancer cells)");
+    if (!label) return;
+    var elem = getSvgChild(RIGHT_CLICK_EVENT.target);
+// debugger;
+    var labelElem = $(elem).find("text.track_label");
+console.log(elem, labelElem.length, labelElem)
+    if (labelElem.length)  labelElem[0].textContent = label;
+    else                   $(elem).append( createLabel(label) );
+}
+
+// ================
+
+function changeColour() {
+    $("#id_color_modal").css("display", "block");
 }
 
 function closeColorModal() {

@@ -1,0 +1,36 @@
+
+#id_ctx_menu {
+    display:none;
+    position:fixed;
+    border:solid thin grey;
+    background-color:lightgrey;
+    padding:0.5em;
+    z-index:999;
+}
+#id_ctx_menu div {
+padding:0.5em;
+}
+#id_ctx_menu div:hover {
+    background-color:lightgreen;
+}
+#id_ctx_menu a {
+    text-decoration:none;
+    color:black;
+}
+#id_color_modal {
+    display:none;
+    position:fixed;
+    border:solid thin grey;
+    background-color:lightgrey;
+    padding:2em;
+    z-index:999;
+    top:25%;
+    left:45%;
+}
+#view {
+    position:relative;
+}
+text.track_label {
+    fill:blue;
+    text-anchor: middle;
+}

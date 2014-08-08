@@ -7,8 +7,9 @@ node_modules/
 npm-debug.log
 
 # Compiled files
-js/
+#js/
 files/
 
 all_interfaces.js
 doc/
+

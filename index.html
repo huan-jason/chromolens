@@ -119,11 +119,20 @@
                         <select type="genomechoice" id="dest_view" >
                             <option value="new">a new view</option>
                         </select>
-                        <input type="button" id="add" value="Confirm" disabled="true" onclick="
+<!--                        <input type="button" id="add" value="Confirm" disabled="true" onclick="
                         document.getElementById('genomesvg').style.border = '0.2em groove silver';
                         var elements = document.getElementsByClassName('hide');
                         for (var e in elements) {if(elements[e].style) elements[e].style.display = 'block';}"
-                        />
+                        />-->
+                        <input type="button" id="add" value="Confirm" disabled="true" onclick="addTrack();">
+                        <script>
+                            function addTrack() {
+//                                 debugger;
+                                document.getElementById('genomesvg').style.border = '0.2em groove silver';
+                                var elements = document.getElementsByClassName('hide');
+                                for (var e in elements) {if(elements[e].style) elements[e].style.display = 'block';}
+                            }
+                        </script>
                     </p>
                 </form>
             </div>
@@ -203,8 +212,8 @@
             <div id="LoadingBarWrapper">
                 <progress id="LoadingBar" max="100"></progress>
             </div>
-        </div> 
-        
+        </div>
+
         <!-- Javascript files -->
         <script type="text/javascript" src="bower/jquery/jquery.min.js"></script>
         <script type="text/javascript" src="bower/jqueryui/ui/minified/jquery-ui.min.js"></script>
@@ -222,7 +231,7 @@
         <script type="text/javascript" src="js/histogram.js" ></script>
         <script type="text/javascript" src="js/cytoband.js" ></script>
         <script type="text/javascript" src="js/adjacency.js" ></script>
-        <script type="text/javascript" src="js/isf.js" ></script>   
+        <script type="text/javascript" src="js/isf.js" ></script>
         <script type="text/javascript" src="js/bedGraph.js" ></script>
         <script type="text/javascript" src="js/gff3.js" ></script>
 
@@ -397,6 +406,11 @@
         </script>
 
 
+        <style id="id_style1">
+        </style>
+
+        <script type="text/javascript" src="js/jh.js"></script>
+        <link   type="text/css" rel="stylesheet" href="css/jh.css"/>
 
     </body>
 </html>
