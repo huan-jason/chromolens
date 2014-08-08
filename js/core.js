@@ -364,7 +364,7 @@ var Views;
             var counter = 2;
             var name = basis;
             while (this.viewsByName.has(name)) {
-                name = basis + ' ' + counter++;
+                name = basis + '_' + counter++;
             }
             return name;
         };
