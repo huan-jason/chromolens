@@ -65,13 +65,13 @@ $("#genomesvg").on('DOMNodeInserted', function(e) {
 
 
 // =======================================================================
-// Move Cytoband  to right
+// Move Cytoband  to right - not required anymore; fixed in Github version
 
-$("#genomesvg").on('DOMNodeInserted', function(e) {
-    if (e.target.tagName == "CANVAS" ) {
-        $(e.target).css({ "margin-left":"23px", "padding-top":"2px" });
-    }
-})
+// $("#genomesvg").on('DOMNodeInserted', function(e) {
+//     if (e.target.tagName == "CANVAS" ) {
+//         $(e.target).css({ "margin-left":"23px", "padding-top":"2px" });
+//     }
+// })
 
 
 // =======================================================================
