@@ -307,7 +307,14 @@ var ISF;
             _super.call(this, parent, name, role, args);
             this.complexArcs = (args['complexArcs'] === undefined) ? true : false;
             this.showAllBindings = (args['showAllBindings'] === undefined) ? false : true;
-            this.g_line = this.svg.append("line").attr("x1", 0).attr("x2", this.width).attr("y1", 0).attr("y2", 0).attr("style", "stroke:rgb(255,0,0);stroke-width:2");
+            this.g_vbar = this.svg.append("line")
+                .attr("x1", -10).attr("x2", -10)
+                .attr("y1", 1).attr(  "y2", 1)
+                .attr("class", "drag-bar")
+                .attr("onmousedown", "mouseDragStart(event);")
+                .attr("onmouseup",   "mouseDragEnd(event);")
+                .attr("onmousemove", "mouseDrag(event);");
+            this.g_line = this.svg.append("line").attr("x1", 0).attr("x2", 0).attr("y1", 0).attr("y2", 0).attr("style", "stroke:rgb(255,0,0);stroke-width:2");
             this.g_arcs = this.svg.append("g").attr("class", "arcs");
             this.g_dd_arcs = this.svg.append("g").attr("class", "dd_arcs");
             this.g_ii_arcs = this.svg.append("g").attr("class", "ii_arcs");
@@ -317,6 +324,8 @@ var ISF;
             _super.prototype.setSize.call(this, w, h);
             if (this.g_line !== undefined)
                 this.g_line.attr("x2", w);
+            if (this.g_vbar !== undefined)
+                this.g_vbar.attr("y2", -h + 3);
         };
 
         isfPanel.prototype.getMinSize = function () {

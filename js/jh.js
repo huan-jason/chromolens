@@ -32,6 +32,7 @@ function refresh() {
 // =======================================================================
 // Drag & drop
 
+/*
 function translate(x,y) {
     return [x,y];
 }
@@ -50,8 +51,10 @@ function getTranslateY(elem) {
 function getHeight(elem) {
     return parseInt($(elem).attr("height"));
 }
+
 function move(source, target) {
 console.log(source, target)
+    return;
     var s_transform = getTransform(source);
     var t_transform = getTransform(target);
     var s_height    = parseInt(getHeight(source));
@@ -70,6 +73,71 @@ console.log(source, target)
         $(source).attr( "transform", translate);
     }
 }
+*/
+
+function move(source, target) {
+    var panels = getPanels();
+    var names = [];
+    for (var i=0, len=panels.length; i<len; i++) names.push(panels[i].name);
+
+    var idx_source = names.indexOf( source.getAttribute("id") );
+    assert(idx_source > -1);
+
+    var idx_target = names.indexOf( target.getAttribute("id") );
+    assert(idx_target > -1);
+
+console.log(panels)
+
+    target = panels.splice(idx_source,1)[0];
+
+console.log(panels)
+
+//     idx_target -= (idx_target > idx_source) ? 1 : 0;
+    panels.splice(idx_target, 0, target);
+console.log(panels)
+
+
+    refresh();
+}
+
+function mouseDragStart(e) {
+    var target = getSvgChild(e.target);
+    if (!target) return;
+    if (!target.classList.contains("isfPanel")) return;
+    MOVE_SOURCE = target;
+    $("#genomesvg").css("cursor", "move");
+    $(MOVE_SOURCE).css("opacity", 0.5);
+}
+
+function mouseDrag(e) {
+    if (!MOVE_SOURCE) return;
+    var target = getSvgChild(e.target);
+    if (!target) return;
+    if (!target.classList.contains("isfPanel")) return;
+    if (MOVE_SOURCE == target) return;
+    move(MOVE_SOURCE, target);
+}
+
+function mouseDragEnd(e) {
+    $("#genomesvg").css("cursor", "default");
+    $(MOVE_SOURCE).css("opacity", 1);
+    $(MOVE_SOURCE).find("rect.background").css({ "fill":"initial", "fill-opacity":"0" });
+    MOVE_SOURCE = null;
+}
+
+
+
+function mouseUp(e) {
+    $("#genomesvg").css("cursor", "default");
+    $(MOVE_SOURCE).css("opacity", 1);
+    $(MOVE_SOURCE).find("rect.background").css({ "fill":"initial", "fill-opacity":"0" });
+    MOVE_SOURCE = null;
+}
+
+$("body").on("mouseup", mouseUp);
+
+
+
 
 
 // =======================================================================
@@ -83,42 +151,29 @@ console.log(source, target)
 
 
 // =======================================================================
-// Mouse event handlers
+// Right-click context menu
 
 function isRightClick(e) {
     if (e.which) return e.which  == 3;
     else         return e.button == 2;
 }
+
 function mouseDown(e) {
     if ( isRightClick(e) ) {
         if (!getSvgChild(e.target)) return;
         $("#id_ctx_menu").css({ "top":e.screenY - 90, "left":e.screenX });
         $("#id_ctx_menu").css("display", "block");
         RIGHT_CLICK_EVENT = e;
-        return
-    }
-    MOVE_SOURCE = getSvgChild(e.target);
-    $("#genomesvg").css("cursor", "move");
-    $(MOVE_SOURCE).css("opacity", 0.5);
-    $(MOVE_SOURCE).find("rect.background").css({ "fill":"darkgrey", "fill-opacity":"0.75" });
-}
-
-function mouseMove(e) {
-    if (!MOVE_SOURCE) return;
-    var target = getSvgChild(e.target);
-if(!target) console.log("xxx     ", e.target)
-return
-    if (MOVE_SOURCE != target) {
-        move(MOVE_SOURCE, target);
+        return;
     }
 }
 
-function mouseUp(e) {
-    $("#genomesvg").css("cursor", "default");
-    $(MOVE_SOURCE).css("opacity", 1);
-    $(MOVE_SOURCE).find("rect.background").css({ "fill":"initial", "fill-opacity":"0" });
-    MOVE_SOURCE = null;
-}
+$("#genomesvg").on('DOMNodeInserted', function(e) {
+    var target  = e.target;
+    if (target.parentNode.classList.contains("PowerPanel")) {
+        target.addEventListener('mousedown', mouseDown, false);
+    }
+})
 
 
 $("body").on("click", function(e) {
@@ -127,39 +182,25 @@ $("body").on("click", function(e) {
     }
 });
 
-$("body").on("mouseup", mouseUp);
-
-$("#genomesvg").on('DOMNodeInserted', function(e) {
-    if (e.target.parentNode.id == "genomesvg" ) {
-        var ctarget = e.currentTarget;
-        var target  = e.target;
-        target.addEventListener('mousedown', mouseDown, false);
-        target.addEventListener('mousemove', mouseMove,  false);
-        target.addEventListener('mouseup',   mouseUp,   false);
-    }
-})
-
 
 // =======================================================================
 // Context menu
 
 function closeTrack() {
-    var elem        = getSvgChild(RIGHT_CLICK_EVENT.target);
-    var eid         = elem.id;
-    removeTrack(eid);
-}
+    var elem = getSvgChild(RIGHT_CLICK_EVENT.target);
+    if (!elem) return;
+    var eid = elem.id;
 
-function removeTrack(eid) {
     var powerpanel  = gv.viewsByName.get("MainPanel").panels[0];
     var panels      = powerpanel.panels;
     powerpanel.viewsByName.get(eid).remove();
+
     for (var i=0, len=panels.length; i<len; i++) {
         if (panels[i].name == eid) {
-            panels.splice(i, 1);
-            break;
+        var panel = panels.splice(i, 1);
+        return panel;
         }
     };
-//     $(elem).remove();
     refresh();
 }
 
@@ -183,10 +224,10 @@ function createLabel(text)
 }
 
 function changeLabel() {
+    var elem = getSvgChild(RIGHT_CLICK_EVENT.target);
+    if (!elem) return;
     var label = prompt("Label:","Dr. T the Great (who tickles cancer cells)");
     if (!label) return;
-    var elem = getSvgChild(RIGHT_CLICK_EVENT.target);
-// debugger;
     var labelElem = $(elem).find("text.track_label");
     if (labelElem.length)  labelElem[0].textContent = label;
     else                   $(elem).append( createLabel(label) );
@@ -203,7 +244,8 @@ function closeColorModal() {
 }
 
 function setColor() {
-    var elem        = getSvgChild(RIGHT_CLICK_EVENT.target);
+    var elem = getSvgChild(RIGHT_CLICK_EVENT.target);
+    if (!elem) return;
     var color       = $("#id_color").val();
     var styleelem   = $("#id_style1")
     var style       = "#" + elem.getAttribute("id") + " .ii_arcs path { stroke: " + color + ";}";
