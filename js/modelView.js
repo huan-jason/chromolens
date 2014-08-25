@@ -198,6 +198,7 @@ var GenomeViewer;
             if (destViewName.value == 'new') {
                 panel = mainPanel.createSubView("PowerPanel", chro.name, 'panel');
                 this.destViewSelect.append("option").text(panel.name);
+                this.destViewSelect[0][0].selectedIndex=1;
             } else {
                 panel = mainPanel.getSubView('#' + destViewName.value);
             }

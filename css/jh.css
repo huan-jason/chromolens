@@ -1,14 +1,17 @@
 
 #id_ctx_menu {
+    font-family: "Arial Narrow", Arial, sans-serif;
+    font-size:smaller;
     display:none;
     position:fixed;
     border:solid thin grey;
     background-color:lightgrey;
     padding:0.5em;
     z-index:999;
+    border:outset thin silver;
 }
 #id_ctx_menu div {
-padding:0.5em;
+    padding:0.5em;
 }
 #id_ctx_menu div:hover {
     background-color:lightgreen;
@@ -34,3 +37,4 @@ text.track_label {
     fill:blue;
     text-anchor: middle;
 }
+

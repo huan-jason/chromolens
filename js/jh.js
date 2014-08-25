@@ -5,12 +5,29 @@ var RIGHT_CLICK_EVENT   = null;
 var MOVE_SOURCE         = null;
 var NODES               = [];
 
-
 function getSvgChild(elem) {
-    while (elem.parentNode.id != "genomesvg") elem = elem.parentNode;
-    return elem;
+    //     while (elem.parentNode.id != "genomesvg") elem = elem.parentNode;
+    while ( !elem.parentNode.classList.contains("PowerPanel") ) {
+        elem = elem.parentNode;
+        if (elem.id == "genomesvg") return null;
+    }
+    if ( elem.classList.contains("isfPanel") ) return elem;
+    return null;
 }
 
+
+function getPanels() {
+    return gv.viewsByName.get("MainPanel").panels[0].panels;
+}
+
+
+function refresh() {
+    var mp = gv.viewsByName.get("MainPanel");
+    mp.invalidated = true;
+    mp.panels[0].invalidated = true; // PowerPanel
+    mp.panels[0].panels.forEach( function(p) { p.invalidated = true; } );
+    mp.layout();
+}
 
 // =======================================================================
 // Drag & drop
@@ -34,6 +51,7 @@ function getHeight(elem) {
     return parseInt($(elem).attr("height"));
 }
 function move(source, target) {
+console.log(source, target)
     var s_transform = getTransform(source);
     var t_transform = getTransform(target);
     var s_height    = parseInt(getHeight(source));
@@ -52,16 +70,6 @@ function move(source, target) {
         $(source).attr( "transform", translate);
     }
 }
-
-$("#genomesvg").on('DOMNodeInserted', function(e) {
-    if (e.target.parentNode.id == "genomesvg" ) {
-        var ctarget = e.currentTarget;
-        var target  = e.target;
-        target.addEventListener('mousedown', mouseDown, false);
-        target.addEventListener('mousemove', mouseMove,  false);
-        target.addEventListener('mouseup',   mouseUp,   false);
-    }
-})
 
 
 // =======================================================================
@@ -83,6 +91,7 @@ function isRightClick(e) {
 }
 function mouseDown(e) {
     if ( isRightClick(e) ) {
+        if (!getSvgChild(e.target)) return;
         $("#id_ctx_menu").css({ "top":e.screenY - 90, "left":e.screenX });
         $("#id_ctx_menu").css("display", "block");
         RIGHT_CLICK_EVENT = e;
@@ -97,6 +106,8 @@ function mouseDown(e) {
 function mouseMove(e) {
     if (!MOVE_SOURCE) return;
     var target = getSvgChild(e.target);
+if(!target) console.log("xxx     ", e.target)
+return
     if (MOVE_SOURCE != target) {
         move(MOVE_SOURCE, target);
     }
@@ -118,13 +129,38 @@ $("body").on("click", function(e) {
 
 $("body").on("mouseup", mouseUp);
 
+$("#genomesvg").on('DOMNodeInserted', function(e) {
+    if (e.target.parentNode.id == "genomesvg" ) {
+        var ctarget = e.currentTarget;
+        var target  = e.target;
+        target.addEventListener('mousedown', mouseDown, false);
+        target.addEventListener('mousemove', mouseMove,  false);
+        target.addEventListener('mouseup',   mouseUp,   false);
+    }
+})
+
 
 // =======================================================================
 // Context menu
 
 function closeTrack() {
-    var elem = getSvgChild(RIGHT_CLICK_EVENT.target);
-    $(elem).css("display", "none");
+    var elem        = getSvgChild(RIGHT_CLICK_EVENT.target);
+    var eid         = elem.id;
+    removeTrack(eid);
+}
+
+function removeTrack(eid) {
+    var powerpanel  = gv.viewsByName.get("MainPanel").panels[0];
+    var panels      = powerpanel.panels;
+    powerpanel.viewsByName.get(eid).remove();
+    for (var i=0, len=panels.length; i<len; i++) {
+        if (panels[i].name == eid) {
+            panels.splice(i, 1);
+            break;
+        }
+    };
+//     $(elem).remove();
+    refresh();
 }
 
 // ================
@@ -152,7 +188,6 @@ function changeLabel() {
     var elem = getSvgChild(RIGHT_CLICK_EVENT.target);
 // debugger;
     var labelElem = $(elem).find("text.track_label");
-console.log(elem, labelElem.length, labelElem)
     if (labelElem.length)  labelElem[0].textContent = label;
     else                   $(elem).append( createLabel(label) );
 }
@@ -200,7 +235,7 @@ function createContextMenu() {
     contextMenuNode.setAttribute( "class",  "col-xs-1" );
     contextMenuNode.innerHTML =
     '<a href="javascript:closeTrack  ();"><div class="list-group-item">Close           </div></a>' +
-    '<a href="javascript:changeScale ();"><div class="list-group-item">Change scale... </div></a>' +
+    //'<a href="javascript:changeScale ();"><div class="list-group-item">Change scale... </div></a>' +
     '<a href="javascript:changeColour();"><div class="list-group-item">Change colour...</div></a>' +
     '<a href="javascript:changeLabel ();"><div class="list-group-item">Change label... </div></a>';
 $("body").prepend(contextMenuNode);
@@ -210,4 +245,7 @@ $("body").prepend(contextMenuNode);
     createColorPicker();
     createContextMenu();
 })();
+
+// =======================================================================
+
 

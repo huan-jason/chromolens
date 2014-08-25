@@ -25,7 +25,9 @@
                     <option value="" selected="selected">Assembly</option>
                 </select>
                 <input type="button" name="load" id="load" value="Load" disabled ="true"
-                    onclick="gv = new GenomeViewer.ChromosomeViewer();
+                    onclick="
+                        debugger;
+                        gv = new GenomeViewer.ChromosomeViewer();
                         preload((document.selectform.assembly.options[document.selectform.assembly.selectedIndex].value),'cytoband');
                         document.getElementById('genomechoice').style.display = 'none';
                         document.getElementById('ChromoLens').style.display = 'block';
@@ -127,7 +129,7 @@
                         <input type="button" id="add" value="Confirm" disabled="true" onclick="addTrack();">
                         <script>
                             function addTrack() {
-//                                 debugger;
+                                debugger;
                                 document.getElementById('genomesvg').style.border = '0.2em groove silver';
                                 var elements = document.getElementsByClassName('hide');
                                 for (var e in elements) {if(elements[e].style) elements[e].style.display = 'block';}
