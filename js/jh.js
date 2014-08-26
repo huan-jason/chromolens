@@ -217,7 +217,7 @@ function createLabel(text)
     var svgNS = "http://www.w3.org/2000/svg";
     var label = document.createElementNS(svgNS, "text");
     label.setAttributeNS(null,"x",      330);
-    label.setAttributeNS(null,"y",      15);
+    label.setAttributeNS(null,"y",      -35);
     label.setAttributeNS(null,"class",  "track_label");
     label.textContent = text;
     return label;

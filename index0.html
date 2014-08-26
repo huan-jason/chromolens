@@ -6,7 +6,6 @@
         <link rel="icon" href="img/favicon-32.png" sizes="32x32" />
         <link rel="stylesheet" type="text/css" href="css/chromolens.css" />
         <link rel="stylesheet" type="text/css" href="bower/jqueryui/themes/smoothness/jquery-ui.min.css" />
-        <link   type="text/css" rel="stylesheet" href="css/jh.css"/>
     </head>
     <body>
         <div id="title">
@@ -25,8 +24,8 @@
                 <select name="assembly" id="selectAssembly" onfocus="displayfiles();" onchange="displayfiles();" onclick="displayfiles();">
                     <option value="" selected="selected">Assembly</option>
                 </select>
-                <script>
-                    function loaddata() {
+                <input type="button" name="load" id="load" value="Load" disabled ="true"
+                    onclick="
                         //debugger;
                         gv = new GenomeViewer.ChromosomeViewer();
                         preload((document.selectform.assembly.options[document.selectform.assembly.selectedIndex].value),'cytoband');
@@ -34,14 +33,7 @@
                         document.getElementById('ChromoLens').style.display = 'block';
                         document.getElementById('ChromoLensTitle').style.display = 'none';
                         document.getElementById('ChromoLensIconTitle').style.display = 'block';
-                        document.getElementById('ChromoLens').style.display='block';
-                        setTimeout( function() {
-                            $("#add").click();
-                            $("#view_type option").remove();
-                        }, 100 );
-                    }
-                </script>
-                <input type="button" name="load" id="load" value="Load" disabled ="true" onclick="loaddata();">
+                        document.getElementById('ChromoLens').style.display='block';">
             </form>
         </div>
         <div id="ChromoLens" style="display:none">
@@ -125,13 +117,10 @@
                         Chromosome:
                         <select type="genomechoice" id="chromosomes" ></select>
                         Add view of type
-                        <select type="genomechoice" id="view_type" ></select>
-                        <span class="hidev2">
-                            to
-                            <select type="genomechoice" id="dest_view" >
-                                <option value="new">a new view</option>
-                            </select>
-                        </span>
+                        <select type="genomechoice" id="view_type" ></select> to
+                        <select type="genomechoice" id="dest_view" >
+                            <option value="new">a new view</option>
+                        </select>
 <!--                        <input type="button" id="add" value="Confirm" disabled="true" onclick="
                         document.getElementById('genomesvg').style.border = '0.2em groove silver';
                         var elements = document.getElementsByClassName('hide');
@@ -139,7 +128,7 @@
                         />-->
                         <input type="button" id="add" value="Confirm" disabled="true" onclick="addTrack();">
                         <script>
-                            function addTrack(e) {
+                            function addTrack() {
                                 //debugger;
                                 document.getElementById('genomesvg').style.border = '0.2em groove silver';
                                 var elements = document.getElementsByClassName('hide');

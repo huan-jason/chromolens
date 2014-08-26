@@ -193,6 +193,10 @@ var GenomeViewer;
             var destViewName = this.destViewSelect.selectAll("option").filter(function (d) {
                 return this.selected;
             }).node();
+            if (!viewTypeName) {
+                hideLoading();
+                return;
+            }
             var panel;
             var mainPanel = this.getViewPath(['', '#MainPanel']);
             if (destViewName.value == 'new') {
