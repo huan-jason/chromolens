@@ -9,11 +9,13 @@
         <link   type="text/css" rel="stylesheet" href="css/jh.css"/>
     </head>
     <body>
+
         <div id="title">
             <div id="ChromoLensIconTitle"><img src="img/icon.svg" alt="ChromoLens icon" id="ChromoLensIcon" title="ChromoLens"></div>
             <div id="ChromoLensTitle"><img src="img/logo.svg" alt="ChromoLens logo" id="ChromoLensLogo" title="ChromoLens"></div>
             <div id="CSItitle" class="title"><a href="http://www.csi.nus.edu.sg/"><img src="img/NUS-CSI.svg" alt="NUS|CSI logo" id="CSIlogo" title="NUS | CSI"></a></div>
         </div>
+
 
         <div id="genomechoice">
             <form name="selectform">
@@ -44,7 +46,49 @@
                 <input type="button" name="load" id="load" value="Load" disabled ="true" onclick="loaddata();">
             </form>
         </div>
+
+
         <div id="ChromoLens" style="display:none">
+
+            <div>
+                <form id="ModelsView">
+                    <p>
+                        Chromosome:
+                        <select type="genomechoice" id="chromosomes" ></select>
+                        Add view of type
+                        <select type="genomechoice" id="view_type" ></select>
+                        <span class="hidev2">
+                            to
+                            <select type="genomechoice" id="dest_view" >
+                                <option value="new">a new view</option>
+                            </select>
+                        </span>
+<!--                        <input type="button" id="add" value="Confirm" disabled="true" onclick="
+                        document.getElementById('genomesvg').style.border = '0.2em groove silver';
+                        var elements = document.getElementsByClassName('hide');
+                        for (var e in elements) {if(elements[e].style) elements[e].style.display = 'block';}"
+                        />-->
+                        <input type="button" id="add" value="Confirm" disabled="true" onclick="addTrack();">
+                        <script>
+                            function addTrack(e) {
+                                //debugger;
+                                document.getElementById('genomesvg').style.border = '0.2em groove silver';
+                                var elements = document.getElementsByClassName('hide');
+                                for (var e in elements) {if(elements[e].style) elements[e].style.display = 'block';}
+                            }
+                        </script>
+                    </p>
+                    
+                    <p id="parsers" style="display:none"></p>
+                    <p style="display:none">Load a file: <input type="file" id="_file" name="_file"/></p>
+                    <p class="hide">
+                        Loaded files:
+                        <select type="genomechoice" id="filenames" ></select>
+                        <!-- <input type="button" id="forget" value="Remove" disabled="true" /> -->
+                    </p>
+                </form>
+            </div>
+
             <div id="status floating-info">
                 <table>
                     <tr>
@@ -79,6 +123,7 @@
                 pValue: <span id="isf_pValue">  None    </span><br />
                         <span id="isf_direct"> (direct) </span>
             </div>
+
             <div id="gff3_info" class="floating-info">
                 <table>
                     <tr>
@@ -112,43 +157,6 @@
                 <svg class="genome" id="genomesvg"></svg>
             </div>
 
-            <div>
-                <form id="ModelsView">
-                    <p id="parsers" style="display:none"></p>
-                    <p style="display:none">Load a file: <input type="file" id="_file" name="_file"/></p>
-                    <p class="hide">
-                        Loaded files:
-                        <select type="genomechoice" id="filenames" ></select>
-                        <!-- <input type="button" id="forget" value="Remove" disabled="true" /> -->
-                    </p>
-                    <p>
-                        Chromosome:
-                        <select type="genomechoice" id="chromosomes" ></select>
-                        Add view of type
-                        <select type="genomechoice" id="view_type" ></select>
-                        <span class="hidev2">
-                            to
-                            <select type="genomechoice" id="dest_view" >
-                                <option value="new">a new view</option>
-                            </select>
-                        </span>
-<!--                        <input type="button" id="add" value="Confirm" disabled="true" onclick="
-                        document.getElementById('genomesvg').style.border = '0.2em groove silver';
-                        var elements = document.getElementsByClassName('hide');
-                        for (var e in elements) {if(elements[e].style) elements[e].style.display = 'block';}"
-                        />-->
-                        <input type="button" id="add" value="Confirm" disabled="true" onclick="addTrack();">
-                        <script>
-                            function addTrack(e) {
-                                //debugger;
-                                document.getElementById('genomesvg').style.border = '0.2em groove silver';
-                                var elements = document.getElementsByClassName('hide');
-                                for (var e in elements) {if(elements[e].style) elements[e].style.display = 'block';}
-                            }
-                        </script>
-                    </p>
-                </form>
-            </div>
             <div class="hide">
                 <h2>Load Files from server</h2>
                 <div style="display:none" id="fileshg19">
@@ -160,6 +168,7 @@
                 <div style="display:none" id="filesmm10">
                     <h3>No files available yet.</h3>
                 </div>
+<!--
                 <div style="display:none" id="filesmm9">
                     <h3>Generic Feature Format Version 3 (GFF3) Files :</h3>
                         <input type="button" id="button_top_level" value="top_level" onclick="
@@ -198,6 +207,104 @@
                         document.getElementById('button_NPMwt_CTCF').disabled='true';
                         preload('files/NPMwt_CTCF.bedgraph','bedGraph');
                         "/>
+                </div>
+-->
+                <div style="_display:none" id="filesmm9">
+<!--
+                    <h3>Generic Feature Format Version 3 (GFF3) Files :</h3>
+                        <input type="button" id="button_top_level" value="top_level" onclick="
+                        document.getElementById('button_top_level').disabled='true';
+                        preload('files/top_level.MGSCv37.gff','gff3');
+                        "/>
+-->
+                    <h3>Interaction Standard Format (ISF) Files :</h3>
+                        <label>
+                            <input type="checkbox" id="button_CMF001M" value="CMF001M" onclick="
+                                document.getElementById('button_CMF001M').disabled='true';
+                                preload('files/CMF001M_cluster_INTRA_bothbs_highconfidence.isf','isf');
+                            "/>
+                            CMF001M
+                        </label>
+                        &emsp;
+
+                        <label>
+                            <input type="checkbox" id="button_CMF002M" value="CMF002M" onclick="
+                                document.getElementById('button_CMF002M').disabled='true';
+                                preload('files/CMF002M_cluster_INTRA_bothbs_highconfidence.isf','isf');
+                            "/>
+                            CMF002M
+                        </label>
+                        &emsp;
+
+<!--
+                        <input type="button" id="button_CMF001M" value="CMF001M" onclick="
+                        document.getElementById('button_CMF001M').disabled='true';
+                        preload('files/CMF001M_cluster_INTRA_bothbs_highconfidence.isf','isf');
+                        "/>
+                        <input type="button" id="button_CMF002M" value="CMF002M" onclick="
+                        document.getElementById('button_CMF002M').disabled='true';
+                        preload('files/CMF002M_cluster_INTRA_bothbs_highconfidence.isf','isf');
+                        "/>
+-->
+
+                    <h3>BedGraph files :</h3>
+                        <label>
+                            <input type="checkbox" id="button_input_NPMko" value="input_NPMko" onclick="
+                                document.getElementById('button_input_NPMko').disabled='true';
+                                preload('files/input_NPMko.bedgraph','bedGraph');
+                            "/>
+                            input_NPMko
+                        </label>
+                        &emsp;
+
+                        <label>
+                            <input type="checkbox" id="button_input_NPMwt" value="input_NPMwt" onclick="
+                                document.getElementById('button_input_NPMwt').disabled='true';
+                                preload('files/input_NPMwt.bedgraph','bedGraph');
+                            "/>
+                            input_NPMwt
+                        </label>
+                        &emsp;
+
+                        <label>
+                            <input type="checkbox" id="button_NPMko_CTCF" value="NPMko_CTCF" onclick="
+                                document.getElementById('button_NPMko_CTCF').disabled='true';
+                                preload('files/NPMko_CTCF.bedgraph','bedGraph');
+                            "/>
+                            NPMko_CTCF
+                        </label>
+                        &emsp;
+
+                        <label>
+                            <input type="checkbox" id="button_NPMwt_CTCF" value="NPMwt_CTCF" onclick="
+                                document.getElementById('button_NPMwt_CTCF').disabled='true';
+                                preload('files/NPMwt_CTCF.bedgraph','bedGraph');
+                            "/>
+                            NPMwt_CTCF
+                        </label>
+                        &emsp;
+
+<!--
+                        <input type="button" id="button_input_NPMko" value="input_NPMko" onclick="
+                        document.getElementById('button_input_NPMko').disabled='true';
+                        preload('files/input_NPMko.bedgraph','bedGraph');
+                        "/>
+
+                        <input type="button" id="button_input_NPMwt" value="input_NPMwt" onclick="
+                        document.getElementById('button_input_NPMwt').disabled='true';
+                        preload('files/input_NPMwt.bedgraph','bedGraph');
+                        "/>
+
+                        <input type="button" id="button_NPMko_CTCF" value="NPMko_CTCF" onclick="
+                        document.getElementById('button_NPMko_CTCF').disabled='true';
+                        preload('files/NPMko_CTCF.bedgraph','bedGraph');
+                        "/>
+
+                        <input type="button" id="button_NPMwt_CTCF" value="NPMwt_CTCF" onclick="
+                        document.getElementById('button_NPMwt_CTCF').disabled='true';
+                        preload('files/NPMwt_CTCF.bedgraph','bedGraph');
+                        "/>
+-->
                 </div>
                 <div style="display:block" id="filesdefault">
                     <h3>No files available yet.</h3>
