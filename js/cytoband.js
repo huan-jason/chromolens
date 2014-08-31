@@ -211,7 +211,7 @@ var Cytoband;
         __extends(CytobandPanel, _super);
         function CytobandPanel(parent, name, role, iter, args) {
             _super.call(this, parent, name, role, args);
-            var ob = this.svg.append("foreignObject").attr("width", this.width).attr("height", this.height);
+            var ob = this.svg.append("foreignObject").attr("width", this.width).attr("height", this.height).attr("x", "23").attr("y", "30");
 
             this.canvas = ob.append("xhtml:canvas").attr("width", this.width).attr("height", this.height);
 
