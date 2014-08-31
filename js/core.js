@@ -522,8 +522,27 @@ var Views;
             this.pos = [x, y];
             var margin = this.getMargin();
             var offset = this.getOffset();
-            this.svg.attr("transform", "translate(" + (x + offset[0] + margin[0]) + "," + (y + offset[1] + margin[1]) + ")");
-        };
+            var translate_x = x + offset[0] + margin[0];
+            var translate_y = y + offset[1] + margin[1]
+            this.svg.attr("transform", "translate(" + translate_x + "," + translate_y + ")");
+            var panel       = this.svg[0][0];
+            var classList   = panel.classList
+            if ( classList.contains("BedGraphHistogramPanel") ||
+                 classList.contains("BedGraphDensityPanel")   ||
+                 classList.contains("BindingDensityPanel")
+            ) {
+                var children = $(panel).children();
+                children.each( function() {
+                    if (this.tagName == "foreignObject") {
+                        child = $(this);
+                        child.attr("x", "23");
+                        var h = translate_y + parseInt( child.attr("height") );
+                        child.attr("y", h);
+                        return false;
+                    }
+                });
+            };
+         };
 
         /**
         * Get the current size of this panel. (excluding the margin.)

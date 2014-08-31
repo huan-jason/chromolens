@@ -37,7 +37,8 @@ text.track_label {
     fill:blue;
     text-anchor: middle;
 }
-.isfPanel .drag-bar {
+
+.drag-bar {
     stroke:silver;
     stroke-width:9;
 }

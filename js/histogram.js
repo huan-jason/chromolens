@@ -21,6 +21,13 @@ var Histogram;
         function AbstractHistogramPanel(parent, name, role, iter, args) {
             _super.call(this, parent, name, role, args);
             var ob = this.svg.append("foreignObject").attr("width", this.width).attr("height", this.height);
+            this.g_vbar = this.svg.append("line")
+            .attr("x1", -10).attr("x2", -10)
+            .attr("y1",   0).attr("y2",  37)
+            .attr("class", "drag-bar")
+            .attr("onmousedown", "mouseDragStart(event);")
+            .attr("onmouseup",   "mouseDragEnd(event);")
+            .attr("onmousemove", "mouseDrag(event);");
             this.canvas = ob.append("xhtml:canvas").attr("width", this.width).attr("height", this.height);
             this.drawContext = (this.canvas.node()).getContext("2d");
             this.iter = iter;

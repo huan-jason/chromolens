@@ -1,6 +1,20 @@
 "use strict";
 
 
+function isPanel(elem) {
+    var panelTypes = [
+        "isfPanel",
+        "BedGraphHistogramPanel",
+        "BedGraphDensityPanel",
+        "BindingDensityPanel",
+    ]
+    var classList = elem.classList;
+    for (var i=0, len=panelTypes.length; i<len; i++) {
+        if ( classList.contains(panelTypes[i]) ) return true;
+    }
+    return false;
+}
+
 var RIGHT_CLICK_EVENT   = null;
 var MOVE_SOURCE         = null;
 var NODES               = [];
@@ -11,10 +25,9 @@ function getSvgChild(elem) {
         elem = elem.parentNode;
         if (elem.id == "genomesvg") return null;
     }
-    if ( elem.classList.contains("isfPanel") ) return elem;
+    if ( isPanel(elem) ) return elem;
     return null;
 }
-
 
 function getPanels() {
     return gv.viewsByName.get("MainPanel").panels[0].panels;
@@ -32,49 +45,6 @@ function refresh() {
 // =======================================================================
 // Drag & drop
 
-/*
-function translate(x,y) {
-    return [x,y];
-}
-function getTransform(elem) {
-    return $(elem).attr("transform");
-}
-function getTranslate(elem) {
-    return eval( getTransform(elem) );
-}
-function getTranslateX(elem) {
-    return parseInt(getTranslate(elem)[0]);
-}
-function getTranslateY(elem) {
-    return parseInt(getTranslate(elem)[1]);
-}
-function getHeight(elem) {
-    return parseInt($(elem).attr("height"));
-}
-
-function move(source, target) {
-console.log(source, target)
-    return;
-    var s_transform = getTransform(source);
-    var t_transform = getTransform(target);
-    var s_height    = parseInt(getHeight(source));
-    var t_height    = parseInt(getHeight(target));
-    var s_Y         = parseInt(getTranslateY(source));
-    var t_Y         = parseInt(getTranslateY(target));
-
-    if (s_Y > t_Y) {
-        $(source).attr( "transform", t_transform );
-        var translate = "translate(20," + (t_Y + s_height) + ")";
-        $(target).attr( "transform", translate);
-    }
-    else {
-        $(target).attr( "transform", s_transform );
-        var translate = "translate(20," + (s_Y + t_height) + ")";
-        $(source).attr( "transform", translate);
-    }
-}
-*/
-
 function move(source, target) {
     var panels = getPanels();
     var names = [];
@@ -86,34 +56,29 @@ function move(source, target) {
     var idx_target = names.indexOf( target.getAttribute("id") );
     assert(idx_target > -1);
 
-console.log(panels)
-
     target = panels.splice(idx_source,1)[0];
-
-console.log(panels)
 
 //     idx_target -= (idx_target > idx_source) ? 1 : 0;
     panels.splice(idx_target, 0, target);
-console.log(panels)
-
-
     refresh();
 }
 
 function mouseDragStart(e) {
+    if (mouseDown(e)) return;
     var target = getSvgChild(e.target);
     if (!target) return;
-    if (!target.classList.contains("isfPanel")) return;
+    if (!isPanel(target)) return;
     MOVE_SOURCE = target;
     $("#genomesvg").css("cursor", "move");
     $(MOVE_SOURCE).css("opacity", 0.5);
+    $(MOVE_SOURCE).find("canvas").css("opacity", 0.5);
 }
 
 function mouseDrag(e) {
     if (!MOVE_SOURCE) return;
     var target = getSvgChild(e.target);
     if (!target) return;
-    if (!target.classList.contains("isfPanel")) return;
+    if (!isPanel(target)) return;
     if (MOVE_SOURCE == target) return;
     move(MOVE_SOURCE, target);
 }
@@ -121,6 +86,7 @@ function mouseDrag(e) {
 function mouseDragEnd(e) {
     $("#genomesvg").css("cursor", "default");
     $(MOVE_SOURCE).css("opacity", 1);
+    $(MOVE_SOURCE).find("canvas").css("opacity", 1);
     $(MOVE_SOURCE).find("rect.background").css({ "fill":"initial", "fill-opacity":"0" });
     MOVE_SOURCE = null;
 }
@@ -130,24 +96,12 @@ function mouseDragEnd(e) {
 function mouseUp(e) {
     $("#genomesvg").css("cursor", "default");
     $(MOVE_SOURCE).css("opacity", 1);
+    $(MOVE_SOURCE).find("canvas").css("opacity", 1);
     $(MOVE_SOURCE).find("rect.background").css({ "fill":"initial", "fill-opacity":"0" });
     MOVE_SOURCE = null;
 }
 
 $("body").on("mouseup", mouseUp);
-
-
-
-
-
-// =======================================================================
-// Move Cytoband  to right - not required anymore; fixed in Github version
-
-// $("#genomesvg").on('DOMNodeInserted', function(e) {
-//     if (e.target.tagName == "CANVAS" ) {
-//         $(e.target).css({ "margin-left":"23px", "padding-top":"2px" });
-//     }
-// })
 
 
 // =======================================================================
@@ -160,11 +114,12 @@ function isRightClick(e) {
 
 function mouseDown(e) {
     if ( isRightClick(e) ) {
+        e.preventDefault();
         if (!getSvgChild(e.target)) return;
         $("#id_ctx_menu").css({ "top":e.screenY - 90, "left":e.screenX });
         $("#id_ctx_menu").css("display", "block");
         RIGHT_CLICK_EVENT = e;
-        return;
+        return true;
     }
 }
 
@@ -202,12 +157,6 @@ function closeTrack() {
         }
     };
     refresh();
-}
-
-// ================
-
-function changeScale() {
-    alert("Change Scale");
 }
 
 // ================
