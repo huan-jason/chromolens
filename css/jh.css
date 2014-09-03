@@ -46,3 +46,7 @@ text.track_label {
 .hidev2 {
     display:none;
 }
+.panel * {
+    font-size:1em;
+}
+

@@ -26,7 +26,7 @@ function hideLoading() {
 * @event
 * @param  {XMLHttpRequestProgressEvent} ev
 */
-function showProgress(ev) {
+function showProgress(ev, filename, fileid) {
     showLoading();
     jQuery('#LoadingBarWrapper').show();
 
@@ -36,6 +36,11 @@ function showProgress(ev) {
 
         if (value >= 100) {
             hideLoading();
+            if (fileid) {
+                angular.element($("body")).scope().loadCompleted(fileid);
+                LOADED[filename] = true;
+            }
+            LOADING = false;
         }
     }
 }

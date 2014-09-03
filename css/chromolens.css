@@ -14,39 +14,40 @@ body{
 }
 
 #title{
-    position: absolute;
+/*     position: absolute; */
     height: 10%;
     min-height: 10em;
     max-height: 20em;
-    width: 100vw;
+/*     width: 100vw; */
 }
 
 #ChromoLensIconTitle{
-    display:none;
-    position: fixed;
-    min-width: 5em;
-    width: 8%;
-    max-width: 10em;
-    top: 2em;
-    left: 2em;
+/*     display:none; */
+/*     position: fixed; */
+/*     top: 2em; */
+/*     left: 2em; */
+/*     min-width: 5em; */
+/*     width: 8%; */
+/*     max-width: 10em; */
 }
 
 #ChromoLensTitle{
-    position: fixed;
-    top: 2em;
-    width: 20%;
+/*     position: fixed; */
+/*     top: 2em; */
+/*     left: 50%; */
+/*     width: 20%; */
+    height: 10%;
     min-width: 10em;
     max-width: 20em;
-    left: 50%;
-    margin-left: -10em;
+/*     margin-left: -10em; */
 }
 
 #CSItitle{
-    position: fixed;
+/*     position: fixed; */
+/*     right: 2em; */
     width: 20%;
     min-width: 10em;
     max-width: 20em;
-    right: 2em;
 }
 
 #ChromoLensLogo, #CSIlogo, #ChromoLensIcon{
@@ -54,27 +55,27 @@ body{
 }
 
 #genomechoice{
-    position: absolute;
-    top: 10em;
-    width: 20%;
-    min-width: 10em;
-    max-width: 20em;
-    left: 50%;
-    margin-left: -10em;
+/*     position: absolute; */
+/*     top: 10em; */
+/*     left: 50%; */
+/*     width: 20%; */
+/*     min-width: 10em; */
+/*     max-width: 20em; */
+/*     margin-left: -10em; */
 }
 
 #ChromoLens {
-    position: relative;
-    left: 12em;
-    top : 2em;
-    right: 20em;
+/*     position: relative; */
+/*     left: 12em; */
+/*     top : 2em; */
+/*     right: 20em; */
 }
 
 svg.genome {
     -moz-border-radius: 1em;
     -webkit-border-radius: 1em;
     -khtml-border-radius: 1em;
-        border-radius: 1em;
+    border-radius: 1em;
     width: auto;
 }
 
@@ -150,11 +151,12 @@ g.ticklabels text {
 
 #Loading {
     position: fixed;
-    top: 50%;
+    top: 25%;
     left: 50%;
     background:#fff4c8;
     border: 0.08em solid black;
-    width:12em;
+    padding:0 1em;
+/*     width:12em; */
 
     display:none;
     background-color: white;
@@ -225,10 +227,13 @@ g.ticklabels text {
 
 div.floating-info {
     position:fixed;
+    top:15px;
+    left:40%;
     background:#fff4c8;
     border: 0.08em solid black;
     width:10em;
     z-index:100;
+    padding:0.5em;
 }
 
 #gff3_info {
@@ -236,14 +241,11 @@ div.floating-info {
     background: white;
     font-size: small;
     border: 0.08em solid black;
-    top:2em;
-    right:20em;
     -moz-border-radius: 0.5em;
     -webkit-border-radius: 0.5em;
     -khtml-border-radius: 0.5em;
-        border-radius: 0.5em;
+    border-radius: 0.5em;
     min-width: 20em;
-    height:6em;
 }
 
 #binding_info {
@@ -251,14 +253,11 @@ div.floating-info {
     background: white;
     font-size: small;
     border: 0.08em solid black;
-    top:2em;
-    right:20em;
     -moz-border-radius: 0.5em;
     -webkit-border-radius: 0.5em;
     -khtml-border-radius: 0.5em;
-        border-radius: 0.5em;
+    border-radius: 0.5em;
     min-width:10em;
-    height:6em;
 }
 
 #isf_info {
@@ -266,14 +265,11 @@ div.floating-info {
     background: white;
     font-size: small;
     border: 0.08em solid black;
-    top:2em;
-    right:20em;
     -moz-border-radius: 0.5em;
     -webkit-border-radius: 0.5em;
     -khtml-border-radius: 0.5em;
-        border-radius: 0.5em;
+    border-radius: 0.5em;
     min-width:10em;
-    height:6em;
 }
 
 .icon_close {
@@ -300,9 +296,8 @@ button, select, input {
     -moz-border-radius: .4em;
     -webkit-border-radius: .4em;
     -khtml-border-radius: .4em;
-        border-radius: .4em;
+    border-radius: .4em;
 }
-
 #dropfile-modal {
     display: none;
     position: fixed;
@@ -316,9 +311,18 @@ button, select, input {
     border: dashed 10px gray;
     opacity: 0.7;
 }
-
 #pcfiles-list {
     margin: 0;
     padding: 0;
     list-style: none;
 }
+.panel-heading h4 {
+    margin:0;
+}
+.files.btn {
+    width:100%;
+}
+.files label {
+    font-weight:normal;
+}
+

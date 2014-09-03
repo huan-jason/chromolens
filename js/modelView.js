@@ -42,7 +42,7 @@ var GenomeViewer;
             this.fileNamesSelect = form.select("#filenames").on("change", function () {
                 this_in_closure.setChroView();
             });
-            this.chroSelect = form.select("#chromosomes");
+            this.chroSelect = d3.select("#chromosomes");
             this.chroSelect.on("change", function () {
                 this_in_closure.adjustViewSelect();
             });
@@ -124,7 +124,7 @@ var GenomeViewer;
             }
         };
 
-        ModelsView.prototype.loadFile = function (filename, parser_type, content) {
+        ModelsView.prototype.loadFile = function (filename, parser_type, content, fileid) {
             var self = this;
 
             if (content === undefined) {
@@ -134,7 +134,7 @@ var GenomeViewer;
                     self.loadFile(filename, parser_type, this.responseText);
                 };
                 req.open("get", filename, true);
-                req.onprogress = showProgress;
+                req.onprogress = function(e) { showProgress(e, filename, fileid) };
 
                 try  {
                     req.send();
