@@ -80,7 +80,7 @@
 
 
 
-    <div id="status" ng-show="loaded">
+    <div id="status" ng-cloak ng-show="loaded">
 
         <div class="ui-widget hide">
             <label for="features">Features</label>
@@ -160,18 +160,18 @@
 
             <div class="col-xs-3" ng-repeat="file in files.ISF">
                 <div class="panel">
-                    <a  id="button_{{file.fileid}}" value="{{file.fileid}}" class="files btn"  ng-class="loadedFiles[file.fileid] ? 'bg-success' :'btn-default'"
+                    <a  id="button_{{file.fileid}}_{{$index}}" value="{{file.fileid}}" class="files btn"  ng-class="loadedFiles[file.fileid] ? 'bg-success' :'btn-default'"
                         ng-click="preload( file.filename, file.type, undefined, file.fileid );"
                     ><div class="panel-heading" ng-bind="file.fileid"></div></a>
 
                     <div class="panel-body" ng-show="loadedFiles[file.fileid]">
                         <label>
-                            <input type="checkbox" id="button_{{file.fileid}}_ip" value="isfPanel">
+                            <input type="checkbox" id="button_{{file.fileid}}_ip_{{$index}}" value="isfPanel" ng-click="addTrack($event, file, 'isfPanel')">
                             ISF Panel
                         </label>
                         <br>
                         <label>
-                            <input type="checkbox" id="button_{{file.fileid}}_pdp" value="BindingDensityPanel">
+                            <input type="checkbox" id="button_{{file.fileid}}_pdp_{{$index}}" value="BindingDensityPanel" ng-click="addTrack($event, file, 'BindingDensityPanel')">
                             Binding Density Panel
                         </label>
                     </div>
@@ -191,18 +191,18 @@
 
             <div class="col-xs-3" ng-repeat="file in files.Bedgraph">
                 <div class="panel">
-                    <a  id="button_{{file.fileid}}" value="{{file.fileid}}" class="files btn"  ng-class="loadedFiles[file.fileid] ? 'bg-success' :'btn-default'"
+                    <a  id="button_{{file.fileid}}_{{$index}}" value="{{file.fileid}}" class="files btn"  ng-class="loadedFiles[file.fileid] ? 'bg-success' :'btn-default'"
                         ng-click="preload( file.filename, file.type, undefined, file.fileid );"
                     ><div class="panel-heading" ng-bind="file.fileid"></div></a>
 
                     <div class="panel-body" ng-show="loadedFiles[file.fileid]">
                         <label>
-                            <input type="checkbox" id="button_{{file.fileid}}_ip" value="BedGraphHistogramPanel">
+                            <input type="checkbox" id="button_{{file.fileid}}_ip_{{$index}}" value="BedGraphHistogramPanel" ng-click="addTrack($event, file, 'BedGraphHistogramPanel')">
                             Histogram Panel
                         </label>
                         <br>
                         <label>
-                            <input type="checkbox" id="button_{{file.fileid}}_pdp" value="BedGraphDensityPanel">
+                            <input type="checkbox" id="button_{{file.fileid}}_pdp_{{$index}}" value="BedGraphDensityPanel" ng-click="addTrack($event, file, 'BedGraphDensityPanel')">
                             Density Panel
                         </label>
                     </div>
@@ -220,9 +220,9 @@
         </div>
         <div class="panel-body">
             <ul id="pcfiles-list">
-                <li id="pcfiles-list-first"><h5>No files available yet.</h5></li>
+                <li id="pcfiles-list-first"><h5>No files uploaded.</h5></li>
             </ul>
-            <p>
+            <p class="upload-container">
                 <input type="file" id="pcfile" /><br />
                 or drop a file in the window to add to the list
             </p>
@@ -324,7 +324,6 @@ var LOADED  = {};
 var LOADING = false;
 
 function preload(filename, type, content, fileid) {
-console.log(LOADING)
     if (LOADED[filename])   return;
     if (LOADING)            return;
     LOADING = true;
@@ -334,63 +333,9 @@ console.log(LOADING)
 }
 
 function setOptions(genomechoice) {
-    var selection = document.selectform.assembly;
-    selection.options.length = 0;
-    if (genomechoice == " ") {
-        document.getElementById('load').disabled = true;
-        selection.options[selection.options.length] = new Option('Assembly',' ');
-    }
-    if (genomechoice == "1") {
-        document.getElementById('load').disabled = false;
-        selection.options[selection.options.length] = new Option('hg19','files/cytoBand.hg19.txt');
-        selection.options[selection.options.length] = new Option('hg18','files/cytoBand.hg18.txt');
-    }
-    if (genomechoice == "2") {
-        document.getElementById('load').disabled = false;
-        selection.options[selection.options.length] = new Option('mm10','files/cytoBand.mm10.txt');
-        selection.options[selection.options.length] = new Option('mm9','files/cytoBand.mm9.txt');
-    }
 }
 
 function displayfiles(genomechoice) {
-//     var selection = document.selectform.assembly.value;
-//     switch (selection) {
-//         case "files/cytoBand.hg19.txt":
-//             document.getElementById('fileshg19').style.display='block';
-//             document.getElementById('fileshg18').style.display='none';
-//             document.getElementById('filesmm10').style.display='none';
-//             document.getElementById('filesmm9').style.display='none';
-//             document.getElementById('filesdefault').style.display='none';
-//             break;
-//         case "files/cytoBand.hg18.txt":
-//             document.getElementById('fileshg19').style.display='none';
-//             document.getElementById('fileshg18').style.display='block';
-//             document.getElementById('filesmm10').style.display='none';
-//             document.getElementById('filesmm9').style.display='none';
-//             document.getElementById('filesdefault').style.display='none';
-//             break;
-//         case "files/cytoBand.mm10.txt":
-//             document.getElementById('fileshg19').style.display='none';
-//             document.getElementById('fileshg18').style.display='none';
-//             document.getElementById('filesmm10').style.display='block';
-//             document.getElementById('filesmm9').style.display='none';
-//             document.getElementById('filesdefault').style.display='none';
-//             break;
-//         case "files/cytoBand.mm9.txt":
-//             document.getElementById('fileshg19').style.display='none';
-//             document.getElementById('fileshg18').style.display='none';
-//             document.getElementById('filesmm10').style.display='none';
-//             document.getElementById('filesmm9').style.display='block';
-//             document.getElementById('filesdefault').style.display='none';
-//             break;
-//         default:
-//             document.getElementById('fileshg19').style.display='none';
-//             document.getElementById('fileshg18').style.display='none';
-//             document.getElementById('filesmm10').style.display='none';
-//             document.getElementById('filesmm9').style.display='none';
-//             document.getElementById('filesdefault').style.display='block';
-//             break;
-//     }
 }
 
 (function($){
@@ -402,7 +347,7 @@ function displayfiles(genomechoice) {
         files = [],
         SELECT;
 
-    SELECT =  "<select>";
+    SELECT =  "<select class='uploaded-select'>";
     SELECT += "<option value='bedGraph' data-search='bedgraph'>bedgraph</option>";
     SELECT += "<option value='gff3' data-search='gff'>gff</option>";
     SELECT += "<option value='isf' data-search='isf'>isf</option>";
@@ -466,9 +411,12 @@ function displayfiles(genomechoice) {
             a.attr('data-fileindex', i);
             a.val(file.name);
             a.on('click', function(ev){
-                var select = ev.currentTarget.nextElementSibling;
-                loadFileByIndex(ev.currentTarget.getAttribute('data-fileindex'), select.value);
-                ev.currentTarget.disabled = true;
+                var currentTarget = ev.currentTarget;
+                var select = currentTarget.nextElementSibling;
+                loadFileByIndex(currentTarget.getAttribute('data-fileindex'), select.value);
+                currentTarget.disabled = true;
+                currentTarget.classList.toggle("bg-success", true);
+                currentTarget.classList.toggle("loaded", true);
                 select.disabled = true;
             });
 
@@ -486,6 +434,8 @@ function displayfiles(genomechoice) {
 
         reader.onload = function (event) {
             preload(file.name, type, event.target.result);
+            LOADING = false;
+            $("#add").click();
         };
 
         reader.readAsText(file);

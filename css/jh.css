@@ -49,4 +49,23 @@ text.track_label {
 .panel * {
     font-size:1em;
 }
+.uploaded-select {
+    display:none;
+}
+.upload-container {
+    margin-top:1em;
+}
+.loaded {
+    opacity:0.5;
+}
+.files .panel-body {
+    border:solid thin lightgrey;
+}
+a.files.bg-success:hover {
+    background-color:#dff0d8 !important;
+}
+a.files.bg-success{
+    color:black;
+
+}
 

@@ -1,7 +1,5 @@
 'use strict';
 
-/* App Module */
-
 var phonecatApp = angular.module('chromolens', [])
 
 
@@ -119,8 +117,15 @@ var phonecatApp = angular.module('chromolens', [])
             })
         };
 
-        $scope.addTrack = function() {
-//             $("#add").click();
+        $scope.addTrack = function(e, file, type) {
+            if (!e.target.checked) return;
+            var viewType = $("#view_type");
+            var option   = viewType.children().filter( function() {
+                return $(this).text() == type;
+            });
+            if (!option) viewType.append( "<option selected>"+type+"</option>" );
+            else         option.attr("selected", "selected");
+            $("#add").click();
         };
     }
 ])
