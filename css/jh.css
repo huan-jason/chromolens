@@ -1,4 +1,6 @@
-
+#genomesvg {
+    border:outset thin silver;
+}
 #id_ctx_menu {
     font-family: "Arial Narrow", Arial, sans-serif;
     font-size:smaller;
@@ -49,23 +51,26 @@ text.track_label {
 .panel * {
     font-size:1em;
 }
-.uploaded-select {
-    display:none;
+.panel-heading a {
+    color:white;
+    text-decoration:none;
 }
-.upload-container {
-    margin-top:1em;
+ul.panelType {
+    padding-left:0.5em;
 }
-.loaded {
-    opacity:0.5;
+ul.panelType * {
+    font-size:0.9em;
 }
-.files .panel-body {
-    border:solid thin lightgrey;
+.files .panel-heading {
+    padding:0;
 }
-a.files.bg-success:hover {
-    background-color:#dff0d8 !important;
+.files-header {
+    padding:1em;
 }
-a.files.bg-success{
-    color:black;
+#genomechoice {
+    margin-top:2em;
+}
 
+line.drag-bar {
+    stroke-linecap: round;
 }
-

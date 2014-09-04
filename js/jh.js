@@ -36,9 +36,12 @@ function getPanels() {
 
 function refresh() {
     var mp = gv.viewsByName.get("MainPanel");
+    var pp = mp.panels[0]
     mp.invalidated = true;
-    mp.panels[0].invalidated = true; // PowerPanel
-    mp.panels[0].panels.forEach( function(p) { p.invalidated = true; } );
+    pp.invalidated = true; // PowerPanel
+    pp.panels.forEach( function(p) {
+        p.invalidated = true;
+    } );
     mp.layout();
 }
 

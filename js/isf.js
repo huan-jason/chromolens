@@ -309,7 +309,7 @@ var ISF;
             this.showAllBindings = (args['showAllBindings'] === undefined) ? false : true;
             this.g_vbar = this.svg.append("line")
                 .attr("x1", -10).attr("x2", -10)
-                .attr("y1", 1).attr(  "y2", 1)
+                .attr("y1", -5).attr(  "y2", 1)
                 .attr("class", "drag-bar")
                 .attr("onmousedown", "mouseDragStart(event);")
                 .attr("onmouseup",   "mouseDragEnd(event);")
@@ -325,7 +325,7 @@ var ISF;
             if (this.g_line !== undefined)
                 this.g_line.attr("x2", w);
             if (this.g_vbar !== undefined)
-                this.g_vbar.attr("y2", -h + 3);
+                this.g_vbar.attr("y2", -h + 10);
         };
 
         isfPanel.prototype.getMinSize = function () {

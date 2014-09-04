@@ -40,7 +40,9 @@ function showProgress(ev, filename, fileid) {
                 angular.element($("body")).scope().loadCompleted(fileid);
                 LOADED[filename] = true;
             }
-            LOADING = false;
+            setTimeout( function(){
+                LOADING = false;
+            }, ev.total/25000 );
         }
     }
 }
@@ -591,7 +593,7 @@ var Views;
         * @return {number[]} The minimum [width, height] of the panel.
         */
         BasePanel.prototype.getMinSize = function () {
-            return [600, 10];
+            return [$("#ChromoLens").width() - 80, 10];
         };
 
         /**

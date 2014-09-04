@@ -13,13 +13,15 @@ body{
     background-attachment: fixed;
 }
 
+/*
 #title{
-/*     position: absolute; */
+    position: absolute;
     height: 10%;
     min-height: 10em;
     max-height: 20em;
-/*     width: 100vw; */
+    width: 100vw;
 }
+*/
 
 #ChromoLensIconTitle{
 /*     display:none; */
@@ -39,6 +41,7 @@ body{
     height: 10%;
     min-width: 10em;
     max-width: 20em;
+    margin-left:5em;
 /*     margin-left: -10em; */
 }
 
@@ -72,11 +75,13 @@ body{
 }
 
 svg.genome {
+/*
     -moz-border-radius: 1em;
     -webkit-border-radius: 1em;
     -khtml-border-radius: 1em;
     border-radius: 1em;
     width: auto;
+*/
 }
 
 .view {

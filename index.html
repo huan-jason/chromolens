@@ -15,210 +15,148 @@
 
 
 
-<body>
+<body  ng-dblclick="showVT=!showVT">
 <div class="container">
 <div class="row">
 <div class="col-xs-12">
 
-    <div id="title">
-        <div id="ChromoLensTitle" class="pull-left"><img src="img/logo.svg" alt="ChromoLens logo" id="ChromoLensLogo" title="ChromoLens"></div>
-        <div id="CSItitle" class="title pull-right"><a href="http://www.csi.nus.edu.sg/"><img src="img/NUS-CSI.svg" alt="NUS|CSI logo" id="CSIlogo" title="NUS | CSI"></a></div>
+<!-- <div id="title" class="pull-right"> -->
+    <div id="CSItitle" class="title pull-right"><a href="http://www.csi.nus.edu.sg/"><img src="img/NUS-CSI.svg" alt="NUS|CSI logo" id="CSIlogo" title="NUS | CSI"></a></div>
+<!-- </div> -->
+
+<div id="genomechoice" class="pull-left">
+    <form name="selectform" class="form-inline">
+
+        <select
+            name="genome"
+            ng-model="genome"
+            class="form-control"
+            ng-change="setDefaultAssembly();"
+            ng-options="name for (name, data) in genomes"
+            ng-disabled="loaded"
+        ></select>
+
+        <select
+            name="assembly"
+            id="selectAssembly"
+            ng-model="assembly"
+            class="form-control"
+            ng-options="a as a.assembly for a in genomes[genome.name].assemblies track by a.file"
+            ng-change="getChromosomes();"
+            ng-disabled="loaded"
+        ></select>
+
+        <select
+            type="genomechoice"
+            id="chromosomes"
+            class="form-control"
+            ng-model="chromosome"
+            ng-options="c for c in genome.chromosomes track by c"
+            ng-disabled="loaded"
+        ></select>
+
+        <input type="button" class="btn btn-primary" name="load" id="load" value="Load" ng-hide="loaded" ng-click="load()" onclick="loaddata();" title="Load genome">
+
+        <a class="btn btn-primary" ng-show="loaded" onclick="window.open(window.location.href)" target="_blank" title="New Chromolens tab">
+            <span class="glyphicon glyphicon-plus-sign"></span>
+        </a>
+
+        <script>
+            function loaddata() {
+//                 debugger;
+                gv = new GenomeViewer.ChromosomeViewer();
+                preload((document.selectform.assembly.options[document.selectform.assembly.selectedIndex].value),'cytoband');
+                setTimeout( function() {
+                    $("#add").click();
+                    $("#view_type option").remove();
+                    LOADING= false;
+                }, 100 );
+                LOADING= false;
+            }
+        </script>
+
+    </form>
+</div>
+
+<div id="ChromoLensTitle" class="pull-left"><img src="img/logo.svg" alt="ChromoLens logo" id="ChromoLensLogo" title="ChromoLens"></div>
+
+
+
+<br clear="all">
+<div id="status" ng-cloak ng-show="loaded">
+
+    <div class="ui-widget hide">
+        <label for="features">Features</label>
+        <input id="features"/>
     </div>
 
-
-    <div id="genomechoice">
-        <form name="selectform" class="form-inline">
-
-            <select
-                name="genome"
-                ng-model="genome"
-                class="form-control"
-                ng-change="setDefaultAssembly();"
-                ng-options="name for (name, data) in genomes"
-                ng-disabled="loaded"
-            ></select>
-
-            <select
-                name="assembly"
-                id="selectAssembly"
-                ng-model="assembly"
-                class="form-control"
-                ng-options="a as a.assembly for a in genomes[genome.name].assemblies track by a.file"
-                ng-change="getChromosomes();"
-                ng-disabled="loaded"
-            ></select>
-
-            <select
-                type="genomechoice"
-                id="chromosomes"
-                class="form-control"
-                ng-model="chromosome"
-                ng-options="c for c in genome.chromosomes track by c"
-                ng-disabled="loaded"
-            ></select>
-
-            <input type="button" class="btn btn-primary" name="load" id="load" value="Load" ng-hide="loaded" ng-click="load()" onclick="loaddata();" title="Load genome">
-
-            <a class="btn btn-primary" ng-show="loaded" onclick="window.open(window.location.href)" target="_blank" title="New Chromolens tab">
-                <span class="glyphicon glyphicon-plus-sign"></span>
-            </a>
-
-            <script>
-                function loaddata() {
-                    //debugger;
-                    gv = new GenomeViewer.ChromosomeViewer();
-                    preload((document.selectform.assembly.options[document.selectform.assembly.selectedIndex].value),'cytoband');
-                    setTimeout( function() {
-                        $("#add").click();
-                        $("#view_type option").remove();
-                    }, 100 );
-                }
-            </script>
-
-        </form>
-    </div>
+    <br class="clearfix">
+    <div class="col-xs-1 focus_info" >Focus:</div>
+    <div class="col-xs-2 focus_info" ><span id="focus_detail">N/A</span></div>
+    <div class="col-xs-1 focus_info col-offset-xs-1" >Zoom:</div>
+    <div class="col-xs-2 focus_info" ><span id="zoom_detail">N/A</span></div>
+</div>
 
 
 
-    <div id="status" ng-cloak ng-show="loaded">
-
-        <div class="ui-widget hide">
-            <label for="features">Features</label>
-            <input id="features"/>
-        </div>
-
-        <br class="clearfix">
-        <div class="col-xs-1 focus_info" >Focus:</div>
-        <div class="col-xs-2 focus_info" ><span id="focus_detail">N/A</span></div>
-        <div class="col-xs-1 focus_info col-offset-xs-1" >Zoom:</div>
-        <div class="col-xs-2 focus_info" ><span id="zoom_detail">N/A</span></div>
-    </div>
+<div id="view" ng-cloak ng-show="loaded">
+    <svg class="genome" id="genomesvg"></svg>
+</div>
 
 
 
-    <div id="view">
-        <svg class="genome" id="genomesvg"></svg>
-    </div>
+<br><br>
+<div id="ChromoLens" ng-cloak>
 
-
-
-    <p><br class="clearfix">
-    <div id="ChromoLens" ng-cloak style="display_:none">
-
-        <div ng-show="loaded">
-            <form id="ModelsView">
-                <p>
-<!--                         Chromosome: -->
-<!--                         <select type="genomechoice" id="chromosomes" ></select> -->
-                    Add view of type
-                    <select type="genomechoice" id="view_type" ></select>
-                    <span class="hidev2">
-                        to
-                        <select type="genomechoice" id="dest_view" >
-                            <option value="new">a new view</option>
-                        </select>
-                    </span>
-                    <input type="button" id="add" value="Confirm" disabled="true" onclick="addTrack();">
-                    <script>
-                        function addTrack(e) {
-                            //debugger;
-                            document.getElementById('genomesvg').style.border = '0.2em groove silver';
-                            var elements = document.getElementsByClassName('hide_');
-                            for (var e in elements) {if(elements[e].style) elements[e].style.display = 'block';}
-                        }
-                    </script>
-                </p>
-
-                <p id="parsers" style="display:none"></p>
-                <p style="display:none">Load a file: <input type="file" id="_file" name="_file"/></p>
-                <p class="hide_">
-                    Loaded files:
-                    <select type="genomechoice" id="filenames" ></select>
-                </p>
-            </form>
-        </div>
-
-
-
-<!--
-                <h3>Generic Feature Format Version 3 (GFF3) Files :</h3>
-                    <input type="button" id="button_top_level" value="top_level" onclick="
-                    document.getElementById('button_top_level').disabled='true';
-                    preload('files/top_level.MGSCv37.gff','gff3');
-                    "/>
--->
-
-<p>
-<br>
 <div class="files" ng-cloak ng-show="loaded">
 
-    <div class="panel panel-primary">
+    <div class="panel panel-primary" ng-repeat="fileType in files">
+
         <div class="panel-heading">
-            <h4>Interaction Standard Format (ISF) Files</h4>
+            <a data-toggle="collapse" data-target="#id-panel-{{fileType.type}}">
+                <h4 class="files-header" ng-bind="fileType.title"></h4>
+            </a>
         </div>
-        <div class="panel-body">
 
-            <div class="col-xs-3" ng-repeat="file in files.ISF">
-                <div class="panel">
-                    <a  id="button_{{file.fileid}}_{{$index}}" value="{{file.fileid}}" class="files btn"  ng-class="loadedFiles[file.fileid] ? 'bg-success' :'btn-default'"
-                        ng-click="preload( file.filename, file.type, undefined, file.fileid );"
-                    ><div class="panel-heading" ng-bind="file.fileid"></div></a>
+        <div id="id-panel-{{fileType.type}}" class="panel-body collapse">
 
-                    <div class="panel-body" ng-show="loadedFiles[file.fileid]">
+            <div class="col-xs-3" ng-repeat="file in fileType.files">
+            <div class="panel">
+            <div class="btn-group">
+
+                <button class="btn" ng-click="preload( file.filename, file.type, undefined, file.fileid );" ng-class="loadedFiles[file.fileid] ? 'bg-success' :'btn-default'">
+                    {{file.fileid}}
+                </button>
+                <button type="button" class="btn bg-success dropdown-toggle" data-toggle="dropdown" ng-show="loadedFiles[file.fileid]">
+                    <span class="caret"></span>
+                </button>
+
+                <ul class="panelType dropdown-menu" ng-show="loadedFiles[file.fileid]">
+                    <li ng-repeat="panelType in fileType.panelTypes">
                         <label>
-                            <input type="checkbox" id="button_{{file.fileid}}_ip_{{$index}}" value="isfPanel" ng-click="addTrack($event, file, 'isfPanel')">
-                            ISF Panel
+                            <input type="checkbox" value="panelType.value" ng-click="addTrack($event, file, panelType.value)">
+                            {{panelType.title}}
                         </label>
-                        <br>
-                        <label>
-                            <input type="checkbox" id="button_{{file.fileid}}_pdp_{{$index}}" value="BindingDensityPanel" ng-click="addTrack($event, file, 'BindingDensityPanel')">
-                            Binding Density Panel
-                        </label>
-                    </div>
-                </div>
-            </div>
+                    </li>
+                </ul>
 
-        </div>
-    </div>
+            </div><!-- btn-group -->
+            </div><!-- panel -->
+            </div><!-- col -->
 
-
-
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h4>BedGraph files</h4>
-        </div>
-        <div class="panel-body">
-
-            <div class="col-xs-3" ng-repeat="file in files.Bedgraph">
-                <div class="panel">
-                    <a  id="button_{{file.fileid}}_{{$index}}" value="{{file.fileid}}" class="files btn"  ng-class="loadedFiles[file.fileid] ? 'bg-success' :'btn-default'"
-                        ng-click="preload( file.filename, file.type, undefined, file.fileid );"
-                    ><div class="panel-heading" ng-bind="file.fileid"></div></a>
-
-                    <div class="panel-body" ng-show="loadedFiles[file.fileid]">
-                        <label>
-                            <input type="checkbox" id="button_{{file.fileid}}_ip_{{$index}}" value="BedGraphHistogramPanel" ng-click="addTrack($event, file, 'BedGraphHistogramPanel')">
-                            Histogram Panel
-                        </label>
-                        <br>
-                        <label>
-                            <input type="checkbox" id="button_{{file.fileid}}_pdp_{{$index}}" value="BedGraphDensityPanel" ng-click="addTrack($event, file, 'BedGraphDensityPanel')">
-                            Density Panel
-                        </label>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
+        </div><!-- panel-body -->
+    </div><!-- panel -->
 
 
     <div class="panel panel-primary">
+
         <div class="panel-heading">
-            <h4>Uploaded files</h4>
+            <a data-toggle="collapse" data-target="#id-panel-upload">
+                <h4 class="files-header">Uploaded files</h4>
+            </a>
         </div>
-        <div class="panel-body">
+
+        <div id="id-panel-upload" class="panel-body collapse">
             <ul id="pcfiles-list">
                 <li id="pcfiles-list-first"><h5>No files uploaded.</h5></li>
             </ul>
@@ -226,12 +164,13 @@
                 <input type="file" id="pcfile" /><br />
                 or drop a file in the window to add to the list
             </p>
-
             <div id="dropfile-modal"></div>
-        </div>
-    </div>
+        </div><!-- panel-body -->
 
-</div>
+    </div><!-- panel -->
+
+
+</div><!-- files -->
 
 
 <div id="Loading">
@@ -295,6 +234,44 @@
 </div>
 
 
+<div ng-show="showVT">
+    <p><br class="clearfix">
+    <form id="ModelsView">
+        <p>
+            Add view of type
+            <select type="genomechoice" id="view_type" ></select>
+            <span class="hidev2">
+                to
+                <select type="genomechoice" id="dest_view" >
+                    <option value="new">a new view</option>
+                </select>
+            </span>
+            <input type="button" id="add" value="Confirm" disabled="true" _onclick="addTrack();">
+<!--
+            <script>
+                function addTrack(e) {
+                    //debugger;
+                    document.getElementById('genomesvg').style.border = '0.2em groove silver';
+                    var elements = document.getElementsByClassName('hide_');
+                    for (var e in elements) {if(elements[e].style) elements[e].style.display = 'block';}
+                }
+            </script>
+-->
+        </p>
+
+        <p id="parsers" style="display:none"></p>
+        <p style="display:none">Load a file: <input type="file" id="_file" name="_file"/></p>
+        <p class="hide_">
+            Loaded files:
+            <select type="genomechoice" id="filenames" ></select>
+        </p>
+    </form>
+</div>
+
+
+</div>
+</div>
+</div>
 
 
 <!-- Javascript files -->
@@ -447,13 +424,10 @@ function displayfiles(genomechoice) {
 </script>
 
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/jh.js"></script>
 
 <style id="id_style1"></style>
 
-</div>
-</div>
-</div>
 </body>
 </html>

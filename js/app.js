@@ -3,42 +3,78 @@
 var phonecatApp = angular.module('chromolens', [])
 
 
-.value( "FILES", {
-    ISF: [
-        {
-            fileid:       "CMF001M",
-            filename:     "files/CMF001M_cluster_INTRA_bothbs_highconfidence.isf",
-            type:         "isf",
-        },
-        {
-            fileid:       "CMF002M",
-            filename:     "files/CMF002M_cluster_INTRA_bothbs_highconfidence.isf",
-            type:         "isf",
-        },
-    ],
-    Bedgraph: [
-        {
-            fileid:       "input_NPMko",
+.value( "FILES", [
+    {
+        type:   "ISF",
+        title:  "Interaction Standard Format (ISF) Files",
+        files:  [
+            {
+                fileid:       "CMF001M",
+                filename:     "files/CMF001M_cluster_INTRA_bothbs_highconfidence.isf",
+                type:         "isf",
+            },
+            {
+                fileid:       "CMF002M",
+                filename:     "files/CMF002M_cluster_INTRA_bothbs_highconfidence.isf",
+                type:         "isf",
+            },
+        ],
+        panelTypes: [
+            {
+                value:  "isfPanel",
+                title:  "ISF Panel",
+            },
+            {
+                value:  "BindingDensityPanel",
+                title:  "Binding Density Panel",
+            },
+        ],
+    },
+    {
+        type:   "Bedgraph",
+        title:  "BedGraph files",
+        files: [
+            {
+                fileid:       "input_NPMko",
             filename:     "files/input_NPMko.bedgraph",
             type:         "bedGraph",
-        },
-        {
-            fileid:       "input_NPMwt",
+            },
+            {
+                fileid:       "input_NPMwt",
             filename:     "files/input_NPMwt.bedgraph",
             type:         "bedGraph",
-        },
-        {
-            fileid:       "NPMko_CTCF",
+            },
+            {
+                fileid:       "NPMko_CTCF",
             filename:     "files/NPMko_CTCF.bedgraph",
             type:         "bedGraph",
-        },
-        {
-            fileid:       "NPMwt_CTCF",
+            },
+            {
+                fileid:       "NPMwt_CTCF",
             filename:     "files/NPMwt_CTCF.bedgraph",
             type:         "bedGraph",
-        },
-    ],
-})
+            },
+        ],
+        panelTypes: [
+            {
+                value:  "BedGraphHistogramPanel",
+            title:  "Histogram Panel",
+            },
+            {
+                value:  "BedGraphDensityPanel",
+            title:  "Density Panel",
+            },
+        ],
+    },
+    {
+        type:   "GFF3",
+        title:  "Generic Feature Format version 3 files",
+        files: [
+        ],
+        panelTypes: [
+        ],
+    },
+])
 
 
 .value( "GENOMES", {

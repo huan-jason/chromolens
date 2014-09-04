@@ -23,7 +23,7 @@ var Histogram;
             var ob = this.svg.append("foreignObject").attr("width", this.width).attr("height", this.height);
             this.g_vbar = this.svg.append("line")
             .attr("x1", -10).attr("x2", -10)
-            .attr("y1",   0).attr("y2",  37)
+            .attr("y1",   5).attr("y2",  35)
             .attr("class", "drag-bar")
             .attr("onmousedown", "mouseDragStart(event);")
             .attr("onmouseup",   "mouseDragEnd(event);")
