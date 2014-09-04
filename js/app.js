@@ -3,66 +3,64 @@
 var phonecatApp = angular.module('chromolens', [])
 
 
+.value( "PANELS", {
+    isf:    [
+        {
+            value:  "isfPanel",
+            title:  "ISF Panel",
+        },
+        {
+            value:  "BindingDensityPanel",
+            title:  "Binding Density Panel",
+        },
+    ],
+    bedGraph:   [
+        {
+            value:  "BedGraphHistogramPanel",
+            title:  "Histogram Panel",
+        },
+        {
+            value:  "BedGraphDensityPanel",
+            title:  "Density Panel",
+        },
+    ],
+})
+
+
 .value( "FILES", [
     {
-        type:   "ISF",
+        type:   "isf",
         title:  "Interaction Standard Format (ISF) Files",
         files:  [
             {
                 fileid:       "CMF001M",
                 filename:     "files/CMF001M_cluster_INTRA_bothbs_highconfidence.isf",
-                type:         "isf",
             },
             {
                 fileid:       "CMF002M",
                 filename:     "files/CMF002M_cluster_INTRA_bothbs_highconfidence.isf",
-                type:         "isf",
-            },
-        ],
-        panelTypes: [
-            {
-                value:  "isfPanel",
-                title:  "ISF Panel",
-            },
-            {
-                value:  "BindingDensityPanel",
-                title:  "Binding Density Panel",
             },
         ],
     },
     {
-        type:   "Bedgraph",
+        type:   "bedGraph",
         title:  "BedGraph files",
         files: [
             {
                 fileid:       "input_NPMko",
             filename:     "files/input_NPMko.bedgraph",
-            type:         "bedGraph",
             },
             {
                 fileid:       "input_NPMwt",
             filename:     "files/input_NPMwt.bedgraph",
-            type:         "bedGraph",
             },
             {
                 fileid:       "NPMko_CTCF",
             filename:     "files/NPMko_CTCF.bedgraph",
-            type:         "bedGraph",
             },
             {
                 fileid:       "NPMwt_CTCF",
             filename:     "files/NPMwt_CTCF.bedgraph",
-            type:         "bedGraph",
-            },
-        ],
-        panelTypes: [
-            {
-                value:  "BedGraphHistogramPanel",
-            title:  "Histogram Panel",
-            },
-            {
-                value:  "BedGraphDensityPanel",
-            title:  "Density Panel",
             },
         ],
     },
@@ -71,7 +69,11 @@ var phonecatApp = angular.module('chromolens', [])
         title:  "Generic Feature Format version 3 files",
         files: [
         ],
-        panelTypes: [
+    },
+    {
+        type:   "Upload",
+        title:  "Uploaded files",
+        files: [
         ],
     },
 ])
@@ -123,12 +125,15 @@ var phonecatApp = angular.module('chromolens', [])
     "$scope",
     "GENOMES",
     "FILES",
+    "PANELS",
     function(
         $scope,
         GENOMES,
-        FILES
+        FILES,
+        PANELS
     ){
         $scope.files              = FILES;
+        $scope.panels             = PANELS;
         $scope.loadedFiles        = {};
         $scope.genomes            = GENOMES;
         $scope.genome             = GENOMES["Mus Musculus"];

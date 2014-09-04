@@ -124,7 +124,7 @@
             <div class="panel">
             <div class="btn-group">
 
-                <button class="btn" ng-click="preload( file.filename, file.type, undefined, file.fileid );" ng-class="loadedFiles[file.fileid] ? 'bg-success' :'btn-default'">
+                <button class="btn" ng-click="preload( file.filename, fileType.type, undefined, file.fileid );" ng-class="loadedFiles[file.fileid] ? 'bg-success' :'btn-default'">
                     {{file.fileid}}
                 </button>
                 <button type="button" class="btn bg-success dropdown-toggle" data-toggle="dropdown" ng-show="loadedFiles[file.fileid]">
@@ -132,7 +132,7 @@
                 </button>
 
                 <ul class="panelType dropdown-menu" ng-show="loadedFiles[file.fileid]">
-                    <li ng-repeat="panelType in fileType.panelTypes">
+                    <li ng-repeat="panelType in panels[ file.type || fileType.type ]">
                         <label>
                             <input type="checkbox" value="panelType.value" ng-click="addTrack($event, file, panelType.value)">
                             {{panelType.title}}
