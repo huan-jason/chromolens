@@ -156,10 +156,10 @@ function closeTrack() {
     for (var i=0, len=panels.length; i<len; i++) {
         if (panels[i].name == eid) {
         var panel = panels.splice(i, 1);
+        refresh();
         return panel;
         }
     };
-    refresh();
 }
 
 // ================
