@@ -226,7 +226,7 @@ $("body").prepend(contextMenuNode);
 function createContextMenu() {
     var contextMenuNode = document.createElement("div");
     contextMenuNode.setAttribute( "id",     "id_ctx_menu" );
-    contextMenuNode.setAttribute( "class",  "col-xs-1" );
+    contextMenuNode.setAttribute( "class",  "col-xs-2" );
     contextMenuNode.innerHTML =
     '<a href="javascript:closeTrack  ();"><div class="list-group-item">Close           </div></a>' +
     //'<a href="javascript:changeScale ();"><div class="list-group-item">Change scale... </div></a>' +

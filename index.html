@@ -20,65 +20,66 @@
 <div class="row">
 <div class="col-xs-12">
 
-<!-- <div id="title" class="pull-right"> -->
+<div class="header text-center">
     <div id="CSItitle" class="title pull-right"><a href="http://www.csi.nus.edu.sg/"><img src="img/NUS-CSI.svg" alt="NUS|CSI logo" id="CSIlogo" title="NUS | CSI"></a></div>
-<!-- </div> -->
 
-<div id="genomechoice" class="pull-left">
-    <form name="selectform" class="form-inline">
+    <div id="genomechoice" class="pull-left">
+        <form name="selectform" class="form-inline">
 
-        <select
-            name="genome"
-            ng-model="genome"
-            class="form-control"
-            ng-change="setDefaultAssembly();"
-            ng-options="name for (name, data) in genomes"
-            ng-disabled="loaded"
-        ></select>
+            <select
+                name="genome"
+                ng-model="genome"
+                class="form-control"
+                ng-change="setDefaultAssembly();"
+                ng-options="name for (name, data) in genomes"
+                ng-disabled="loaded"
+            ></select>
 
-        <select
-            name="assembly"
-            id="selectAssembly"
-            ng-model="assembly"
-            class="form-control"
-            ng-options="a as a.assembly for a in genomes[genome.name].assemblies track by a.file"
-            ng-change="getChromosomes();"
-            ng-disabled="loaded"
-        ></select>
+            <select
+                name="assembly"
+                id="selectAssembly"
+                ng-model="assembly"
+                class="form-control"
+                ng-options="a as a.assembly for a in genomes[genome.name].assemblies track by a.file"
+                ng-change="getChromosomes();"
+                ng-disabled="loaded"
+            ></select>
 
-        <select
-            type="genomechoice"
-            id="chromosomes"
-            class="form-control"
-            ng-model="chromosome"
-            ng-options="c for c in genome.chromosomes track by c"
-            ng-disabled="loaded"
-        ></select>
+            <select
+                type="genomechoice"
+                id="chromosomes"
+                class="form-control"
+                ng-model="chromosome"
+                ng-options="c for c in genome.chromosomes track by c"
+                ng-disabled="loaded"
+            ></select>
 
-        <input type="button" class="btn btn-primary" name="load" id="load" value="Load" ng-hide="loaded" ng-click="load()" onclick="loaddata();" title="Load genome">
+            <input type="button" class="btn btn-primary" name="load" id="load" value="Load" ng-hide="loaded" ng-click="load()" onclick="loaddata();" title="Load genome">
 
-        <a class="btn btn-primary" ng-show="loaded" onclick="window.open(window.location.href)" target="_blank" title="New Chromolens tab">
-            <span class="glyphicon glyphicon-plus-sign"></span>
-        </a>
+            <a class="btn btn-primary" ng-show="loaded" onclick="window.open(window.location.href)" target="_blank" title="New Chromolens tab">
+                <span class="glyphicon glyphicon-plus-sign"></span>
+            </a>
 
-        <script>
-            function loaddata() {
-//                 debugger;
-                gv = new GenomeViewer.ChromosomeViewer();
-                preload((document.selectform.assembly.options[document.selectform.assembly.selectedIndex].value),'cytoband');
-                setTimeout( function() {
-                    $("#add").click();
-                    $("#view_type option").remove();
+            <script>
+                function loaddata() {
+    //                 debugger;
+                    gv = new GenomeViewer.ChromosomeViewer();
+                    preload((document.selectform.assembly.options[document.selectform.assembly.selectedIndex].value),'cytoband');
+                    setTimeout( function() {
+                        $("#add").click();
+                        $("#view_type option").remove();
+                        LOADING= false;
+                    }, 100 );
                     LOADING= false;
-                }, 100 );
-                LOADING= false;
-            }
-        </script>
+                }
+            </script>
 
-    </form>
-</div>
+        </form>
+    </div>
 
-<div id="ChromoLensTitle" class="pull-left"><img src="img/logo.svg" alt="ChromoLens logo" id="ChromoLensLogo" title="ChromoLens"></div>
+    <div id="ChromoLensTitle" class=""><img src="img/logo.svg" alt="ChromoLens logo" id="ChromoLensLogo" title="ChromoLens"></div>
+
+</div><!-- header -->
 
 
 
@@ -148,26 +149,10 @@
     </div><!-- panel -->
 
 
-    <div class="panel panel-primary">
-
-        <div class="panel-heading">
-            <a data-toggle="collapse" data-target="#id-panel-upload">
-                <h4 class="files-header">Uploaded files</h4>
-            </a>
-        </div>
-
-        <div id="id-panel-upload" class="panel-body collapse">
-            <ul id="pcfiles-list">
-                <li id="pcfiles-list-first"><h5>No files uploaded.</h5></li>
-            </ul>
-            <p class="upload-container">
-                <input type="file" id="pcfile" /><br />
-                or drop a file in the window to add to the list
-            </p>
-            <div id="dropfile-modal"></div>
-        </div><!-- panel-body -->
-
-    </div><!-- panel -->
+<p class="upload-container">
+    <input type="file" id="pcfile">
+</p>
+<div id="dropfile-modal"></div>
 
 
 </div><!-- files -->
@@ -361,6 +346,7 @@ function displayfiles(genomechoice) {
     });
 
     function addFileToList(file){
+console.log(file)
         $('#pcfiles-list-first').hide();
         files.push(file);
         updateFileList();

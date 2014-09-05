@@ -12,11 +12,16 @@
     z-index:999;
     border:outset thin silver;
 }
+#id_ctx_menu {
+    padding:0;
+}
 #id_ctx_menu div {
     padding:0.5em;
+    border:0;
+    border-radius:0;
 }
 #id_ctx_menu div:hover {
-    background-color:lightgreen;
+    background-color:lightgrey;
 }
 #id_ctx_menu a {
     text-decoration:none;

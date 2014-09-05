@@ -48,19 +48,19 @@ var phonecatApp = angular.module('chromolens', [])
         files: [
             {
                 fileid:       "input_NPMko",
-            filename:     "files/input_NPMko.bedgraph",
+                filename:     "files/input_NPMko.bedgraph",
             },
             {
                 fileid:       "input_NPMwt",
-            filename:     "files/input_NPMwt.bedgraph",
+                filename:     "files/input_NPMwt.bedgraph",
             },
             {
                 fileid:       "NPMko_CTCF",
-            filename:     "files/NPMko_CTCF.bedgraph",
+                filename:     "files/NPMko_CTCF.bedgraph",
             },
             {
                 fileid:       "NPMwt_CTCF",
-            filename:     "files/NPMwt_CTCF.bedgraph",
+                filename:     "files/NPMwt_CTCF.bedgraph",
             },
         ],
     },
@@ -154,7 +154,7 @@ var phonecatApp = angular.module('chromolens', [])
 
         $scope.loadCompleted = function(fileid) {
             $scope.$apply( function() {
-            $scope.loadedFiles[fileid] = true;
+                $scope.loadedFiles[fileid] = true;
             })
         };
 
@@ -168,6 +168,33 @@ var phonecatApp = angular.module('chromolens', [])
             else         option.attr("selected", "selected");
             $("#add").click();
         };
+
+        function getType(filename) {
+            var ext = filename.split(".");
+            if (ext.length < 2) return false;
+            ext = ext[ext.length - 1].toLowerrCase();
+            var types = {
+                isf :       "isf",
+                bedgraph :  "bedGraph",
+            };
+            return types[ext];
+        }
+
+        $scope.addUploadFile= function(file) {
+            $scope.$apply( function() {
+                var type = getType(file.name);
+                if (type) {
+                    var uploads = FILES[FILES.length - 1];
+                    upoloads.files.push({
+                        fileid:     file.name,
+                        filename:   file.name,
+                        type:       type,
+                    });
+                };
+
+            })
+        };
+
     }
 ])
 
