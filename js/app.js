@@ -149,7 +149,9 @@ var phonecatApp = angular.module('chromolens', [])
         };
 
         $scope.preload = function ( filename, type, content, fileid ) {
-            preload(filename, type, content, fileid);
+            if (type != "Upload") {
+                preload(filename, type, content, fileid);
+            }
         };
 
         $scope.loadCompleted = function(fileid) {
@@ -169,27 +171,38 @@ var phonecatApp = angular.module('chromolens', [])
             $("#add").click();
         };
 
-        function getType(filename) {
-            var ext = filename.split(".");
-            if (ext.length < 2) return false;
-            ext = ext[ext.length - 1].toLowerrCase();
-            var types = {
-                isf :       "isf",
-                bedgraph :  "bedGraph",
-            };
-            return types[ext];
-        }
-
         $scope.addUploadFile= function(file) {
             $scope.$apply( function() {
+
+                function getType(filename) {
+                    var ext = filename.split(".");
+                    if (ext.length < 2) return false;
+                          ext = ext[ext.length - 1].toLowerCase();
+                    var types = {
+                        isf :       "isf",
+                        bedgraph :  "bedGraph",
+                    };
+                    return types[ext];
+                }
                 var type = getType(file.name);
                 if (type) {
-                    var uploads = FILES[FILES.length - 1];
-                    upoloads.files.push({
-                        fileid:     file.name,
-                        filename:   file.name,
-                        type:       type,
-                    });
+                    var uploads = FILES[FILES.length - 1];  // uploaded file list is last in FILES
+                    var uploaded = false;
+                    for (var i=0, len=uploads.files.length; i<len; i++) {
+                        if (uploads.files[i].fileid == file.name ) {
+                            uploaded = true;
+                            break;
+                        };
+                    };
+                    if (!uploaded) {
+                        uploads.files.push({
+                            fileid:     file.name,
+                            filename:   file.name,
+                            type:       type,
+                        });
+                        $scope.loadedFiles[file.name] = true;
+                        $("#id-panel-Upload").collapse("show");
+                    };
                 };
 
             })

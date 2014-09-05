@@ -786,7 +786,7 @@ var Model;
         */
         ModelManager.prototype.load_str = function (content, id, type, chro) {
             var parser = Parsers.registry.getParser(type);
-            assert(parser !== undefined);
+            assert(parser !== undefined, "No parser for " + type);
             if (chro !== undefined && chro != '') {
                 id += id + '#' + chro;
             }

@@ -148,12 +148,10 @@
         </div><!-- panel-body -->
     </div><!-- panel -->
 
-
 <p class="upload-container">
     <input type="file" id="pcfile">
 </p>
 <div id="dropfile-modal"></div>
-
 
 </div><!-- files -->
 
@@ -251,6 +249,11 @@
             <select type="genomechoice" id="filenames" ></select>
         </p>
     </form>
+
+<ul id="pcfiles-list">
+    <li id="pcfiles-list-first"><h5>No files available yet.</h5></li>
+</ul>
+
 </div>
 
 
@@ -291,7 +294,7 @@ function preload(filename, type, content, fileid) {
     LOADING = true;
     showLoading();
     Views.mainView.getSubView('modelsView').loadFile(filename, type, content, fileid);
-    hideLoading(filename);
+    hideLoading();
 }
 
 function setOptions(genomechoice) {
@@ -346,10 +349,26 @@ function displayfiles(genomechoice) {
     });
 
     function addFileToList(file){
-console.log(file)
+
+        function getType(filename) {
+            var ext = filename.split(".");
+            if (ext.length < 2) return false;
+                    ext = ext[ext.length - 1].toLowerCase();
+            var types = {
+                isf :       "isf",
+                bedgraph :  "bedGraph",
+            };
+            return types[ext];
+        }
+
         $('#pcfiles-list-first').hide();
         files.push(file);
-        updateFileList();
+                    var types = {
+                        isf :       "isf",
+                        bedgraph :  "bedGraph",
+                    };
+        loadFile( file, getType(file.name) );
+//         updateFileList();
     }
 
     function updateFileList(){
@@ -368,11 +387,13 @@ console.log(file)
 
             if( re.test(file.name) ){
                 type = re.exec(file.name)[1];
+                var x = select.find('[data-search="'+type+'"]');
                 select.find('[data-search="'+type+'"]').attr('selected', 'selected');
             }
 
             a.attr('data-fileindex', i);
             a.val(file.name);
+
             a.on('click', function(ev){
                 var currentTarget = ev.currentTarget;
                 var select = currentTarget.nextElementSibling;
@@ -401,6 +422,18 @@ console.log(file)
             $("#add").click();
         };
 
+        reader.readAsText(file);
+    }
+
+
+    function loadFile(file, type){
+        var reader = new FileReader();
+        reader.onprogress = showProgress;
+        reader.onload = function (event) {
+            preload(file.name, type, event.target.result);
+            LOADING = false;
+            angular.element($("body")).scope().addUploadFile(file);
+        };
         reader.readAsText(file);
     }
 
