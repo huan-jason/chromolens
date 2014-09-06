@@ -109,8 +109,10 @@
             <div class="panel">
             <div class="btn-group" id="btn-group-{{file.fileid}}">
 
-                <button class="btn files" ng-click="preload( file.filename, fileType.type, undefined, file.fileid );" ng-class="loadedFiles[file.fileid] ? 'bg-success' :'btn-default'">
-                    {{file.fileid}}
+                <button class="btn files" data-toggle="dropdown"
+                    ng-click="preload( file.filename, fileType.type, undefined, file.fileid );"
+                    ng-class="loadedFiles[file.fileid] ? 'bg-success' :'btn-default'"
+                    >{{file.fileid}}
                 </button>
                 <button type="button" class="btn bg-success dropdown-toggle" data-toggle="dropdown" ng-show="loadedFiles[file.fileid]">
                     <span class="caret"></span>
@@ -238,9 +240,9 @@
 
 
 <div id="id_ctx_menu" class="col-xs-2">
-    <a href="javascript:closeTrack  ();"><div class="list-group-item">Close           </div></a>
-    <a href="javascript:changeColour();"><div class="list-group-item">Change colour...</div></a>
-    <a href="javascript:changeLabel ();"><div class="list-group-item">Change label... </div></a>
+    <a href="javascript:closeTrack();"                  ><div class="list-group-item">Close           </div></a>
+    <a href="javascript:$('#id_color_modal').modal();"  ><div class="list-group-item">Change colour...</div></a>
+    <a href="javascript:label_modal();"                 ><div class="list-group-item">Change label... </div></a>
 </div>
 
 
@@ -265,6 +267,30 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+
+<div class="modal fade" id="id_label_modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Choose Label</h4>
+            </div>
+
+            <div class="modal-body">
+                <input id="input_label" type="text" class="form-control">
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="changeLabel();">OK</button>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 
 <!-- ************************************************************** -->
 

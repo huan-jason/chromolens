@@ -171,38 +171,13 @@ function loaddata() {
 // **************************************************************
 // **************************************************************
 
-function isPanel(elem) {
-    var panelTypes = [
-        "isfPanel",
-        "BedGraphHistogramPanel",
-        "BedGraphDensityPanel",
-        "BindingDensityPanel",
-    ]
-    var classList = elem.classList;
-    for (var i=0, len=panelTypes.length; i<len; i++) {
-        if ( classList.contains(panelTypes[i]) ) return true;
-    }
-    return false;
-}
-
-var RIGHT_CLICK_EVENT   = null;
+var RIGHT_CLICK_ELEMENT = null;
 var MOVE_SOURCE         = null;
 var NODES               = [];
-
-function getSvgChild(elem) {
-    //     while (elem.parentNode.id != "genomesvg") elem = elem.parentNode;
-    while ( !elem.parentNode.classList.contains("PowerPanel") ) {
-        elem = elem.parentNode;
-        if (elem.id == "genomesvg") return null;
-    }
-    if ( isPanel(elem) ) return elem;
-    return null;
-}
 
 function getPanels() {
     return gv.viewsByName.get("MainPanel").panels[0].panels;
 }
-
 
 function refresh() {
     var mp = gv.viewsByName.get("MainPanel");
@@ -218,6 +193,21 @@ function refresh() {
 // =======================================================================
 // Drag & drop
 
+function isRightClick(e) {
+    if (e.which) return e.which  == 3;
+    else         return e.button == 2;
+}
+
+function chkRightClick(e) {
+    if ( isRightClick(e) ) {
+        e.preventDefault();
+        $("#id_ctx_menu").css({ "top":e.screenY - 90, "left":e.screenX });
+        $("#id_ctx_menu").css("display", "block");
+        RIGHT_CLICK_ELEMENT = e.currentTarget.parentNode;
+        return true;
+    }
+}
+
 function move(source, target) {
     var panels = getPanels();
     var names = [];
@@ -230,41 +220,30 @@ function move(source, target) {
     assert(idx_target > -1);
 
     target = panels.splice(idx_source,1)[0];
-
-//     idx_target -= (idx_target > idx_source) ? 1 : 0;
     panels.splice(idx_target, 0, target);
     refresh();
 }
 
 function mouseDragStart(e) {
-    if (mouseDown(e)) return;
-    var target = getSvgChild(e.target);
-    if (!target) return;
-    if (!isPanel(target)) return;
-    MOVE_SOURCE = target;
+    if (chkRightClick(e)) return;
+    MOVE_SOURCE = e.currentTarget.parentNode;
     $("#genomesvg").css("cursor", "move");
     $(MOVE_SOURCE).css("opacity", 0.5);
     $(MOVE_SOURCE).find("canvas").css("opacity", 0.5);
 }
 
-function mouseDrag(e) {
+function mouseDragMove(e) {
     if (!MOVE_SOURCE) return;
-    var target = getSvgChild(e.target);
-    if (!target) return;
-    if (!isPanel(target)) return;
+    var target = e.currentTarget.parentNode;
     if (MOVE_SOURCE == target) return;
     move(MOVE_SOURCE, target);
+    e.preventDefault();
 }
 
 function mouseDragEnd(e) {
-    $("#genomesvg").css("cursor", "default");
-    $(MOVE_SOURCE).css("opacity", 1);
-    $(MOVE_SOURCE).find("canvas").css("opacity", 1);
-    $(MOVE_SOURCE).find("rect.background").css({ "fill":"initial", "fill-opacity":"0" });
-    MOVE_SOURCE = null;
+    mouseUp(e);
+    e.preventDefault();
 }
-
-
 
 function mouseUp(e) {
     $("#genomesvg").css("cursor", "default");
@@ -276,47 +255,17 @@ function mouseUp(e) {
 
 $("body").on("mouseup", mouseUp);
 
-
-// =======================================================================
-// Right-click context menu event handlers
-
-function isRightClick(e) {
-    if (e.which) return e.which  == 3;
-    else         return e.button == 2;
-}
-
-function mouseDown(e) {
-    if ( isRightClick(e) ) {
-        e.preventDefault();
-        if (!getSvgChild(e.target)) return;
-        $("#id_ctx_menu").css({ "top":e.screenY - 90, "left":e.screenX });
-        $("#id_ctx_menu").css("display", "block");
-        RIGHT_CLICK_EVENT = e;
-        return true;
-    }
-}
-
-$("#genomesvg").on('DOMNodeInserted', function(e) {
-    var target  = e.target;
-    if (target.parentNode.classList.contains("PowerPanel")) {
-        target.addEventListener('mousedown', mouseDown, false);
-    }
-})
-
-
 $("body").on("click", function(e) {
     if ( $("#id_ctx_menu").css("display") == "block" ) {
         $("#id_ctx_menu").css("display", "none");
     }
 });
 
-
 // =======================================================================
 // Context menu
 
 function closeTrack() {
-    var elem = getSvgChild(RIGHT_CLICK_EVENT.target);
-    if (!elem) return;
+    var elem = RIGHT_CLICK_ELEMENT;
     var eid = elem.id;
 
     var powerpanel  = gv.viewsByName.get("MainPanel").panels[0];
@@ -334,6 +283,13 @@ function closeTrack() {
 
 // ================
 
+function label_modal() {
+    var elem      = RIGHT_CLICK_ELEMENT;
+    var labelElem = $(elem).find("text.track_label");
+    $("#input_label").val( labelElem[0].textContent );
+    $('#id_label_modal').modal('show');
+}
+
 function createLabel(text)
 {
     var svgNS = "http://www.w3.org/2000/svg";
@@ -346,33 +302,24 @@ function createLabel(text)
 }
 
 function changeLabel() {
-    var elem = getSvgChild(RIGHT_CLICK_EVENT.target);
-    if (!elem) return;
-    var label = prompt("Label:","Dr. T the Great (who tickles cancer cells)");
-    if (!label) return;
+    var elem = RIGHT_CLICK_ELEMENT;
+    var label = $("#input_label").val();
     var labelElem = $(elem).find("text.track_label");
     if (labelElem.length)  labelElem[0].textContent = label;
     else                   $(elem).append( createLabel(label) );
+    $('#id_label_modal').modal("hide");
 }
 
 // ================
 
-function changeColour() {
-    $("#id_color_modal").modal();
-}
-
-// function closeColorModal() {
-//     $("#id_color_modal").css("display", "none");
-// }
-
 function setColor() {
-    var elem = getSvgChild(RIGHT_CLICK_EVENT.target);
+    var elem = RIGHT_CLICK_ELEMENT;
     if (!elem) return;
     var color       = $("#id_color").val();
     var styleelem   = $("#id_style1")
     var style       = "#" + elem.getAttribute("id") + " .ii_arcs path { stroke: " + color + ";}";
     styleelem.html( styleelem.html() + style );
-    closeColorModal();
+    $('#id_color_modal').modal("hide");
 }
 
 // =======================================================================

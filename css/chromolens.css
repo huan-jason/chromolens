@@ -295,12 +295,17 @@ position:relative;
 }
 text.track_label {
     fill:blue;
-    text-anchor: middle;
+    font-size:smaller;
 }
 
 .drag-bar {
     stroke:silver;
     stroke-width:9;
+}
+.drop-bar {
+    stroke:white;
+    stroke-opacity:0.00001;
+    stroke-width:100;
 }
 
 .hidev2 {

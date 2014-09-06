@@ -20,14 +20,23 @@ var Histogram;
         __extends(AbstractHistogramPanel, _super);
         function AbstractHistogramPanel(parent, name, role, iter, args) {
             _super.call(this, parent, name, role, args);
-            var ob = this.svg.append("foreignObject").attr("width", this.width).attr("height", this.height);
+            this.g_rect = this.svg.append("line")
+            .attr("x1", 25).attr("x2", 25)
+            .attr("y1", 0).attr("y2", 40)
+            .attr("class", "drop-bar")
+            .attr("onmouseup",   "mouseDragEnd(event);")
+            .attr("onmousemove", "mouseDragMove(event);");
             this.g_vbar = this.svg.append("line")
             .attr("x1", -10).attr("x2", -10)
             .attr("y1",   5).attr("y2",  35)
             .attr("class", "drag-bar")
             .attr("onmousedown", "mouseDragStart(event);")
-            .attr("onmouseup",   "mouseDragEnd(event);")
-            .attr("onmousemove", "mouseDrag(event);");
+            this.g_label = this.svg.append("text")
+            .attr("x", 0)
+            .attr("y", 10)
+            .attr("class", "track_label")
+            .text(name);
+            var ob = this.svg.append("foreignObject").attr("width", this.width).attr("height", this.height);
             this.canvas = ob.append("xhtml:canvas").attr("width", this.width).attr("height", this.height);
             this.drawContext = (this.canvas.node()).getContext("2d");
             this.iter = iter;
