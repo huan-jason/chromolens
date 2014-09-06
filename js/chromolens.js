@@ -1,5 +1,6 @@
 "use strict";
 
+var gv;
 var LOADED  = {};
 var LOADING = false;
 
@@ -16,6 +17,18 @@ function setOptions(genomechoice) {
 }
 
 function displayfiles(genomechoice) {
+}
+
+function loaddata() {
+    //                 debugger;
+    gv = new GenomeViewer.ChromosomeViewer();
+    preload((document.selectform.assembly.options[document.selectform.assembly.selectedIndex].value),'cytoband');
+    setTimeout( function() {
+        $("#add").click();
+        $("#view_type option").remove();
+        LOADING= false;
+    }, 100 );
+    LOADING= false;
 }
 
 // **************************************************************
@@ -156,6 +169,7 @@ function displayfiles(genomechoice) {
 })(jQuery);
 
 // **************************************************************
+// **************************************************************
 
 function isPanel(elem) {
     var panelTypes = [
@@ -264,7 +278,7 @@ $("body").on("mouseup", mouseUp);
 
 
 // =======================================================================
-// Right-click context menu
+// Right-click context menu event handlers
 
 function isRightClick(e) {
     if (e.which) return e.which  == 3;
@@ -344,12 +358,12 @@ function changeLabel() {
 // ================
 
 function changeColour() {
-    $("#id_color_modal").css("display", "block");
+    $("#id_color_modal").modal();
 }
 
-function closeColorModal() {
-    $("#id_color_modal").css("display", "none");
-}
+// function closeColorModal() {
+//     $("#id_color_modal").css("display", "none");
+// }
 
 function setColor() {
     var elem = getSvgChild(RIGHT_CLICK_EVENT.target);
@@ -361,41 +375,5 @@ function setColor() {
     closeColorModal();
 }
 
-
 // =======================================================================
-// Modals
-
-function createColorPicker() {
-    var contextMenuNode = document.createElement("div");
-    contextMenuNode.setAttribute( "id",     "id_color_modal" );
-    contextMenuNode.setAttribute( "class",  "col-xs-2" );
-    var html =
-        'Choose Colour<br>' +
-        '<input id="id_color" type="color"><br>' +
-        '<button type="button" onclick="setColor();">OK</button>' +
-        '<button type="button" onclick="closeColorModal();">Cancel</button>'
-    contextMenuNode.innerHTML = html;
-$("body").prepend(contextMenuNode);
-}
-
-
-function createContextMenu() {
-    var contextMenuNode = document.createElement("div");
-    contextMenuNode.setAttribute( "id",     "id_ctx_menu" );
-    contextMenuNode.setAttribute( "class",  "col-xs-2" );
-    contextMenuNode.innerHTML =
-    '<a href="javascript:closeTrack  ();"><div class="list-group-item">Close           </div></a>' +
-    //'<a href="javascript:changeScale ();"><div class="list-group-item">Change scale... </div></a>' +
-    '<a href="javascript:changeColour();"><div class="list-group-item">Change colour...</div></a>' +
-    '<a href="javascript:changeLabel ();"><div class="list-group-item">Change label... </div></a>';
-$("body").prepend(contextMenuNode);
-}
-
-(function() {
-    createColorPicker();
-    createContextMenu();
-})();
-
-// =======================================================================
-
 

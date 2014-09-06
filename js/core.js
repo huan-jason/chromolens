@@ -37,8 +37,10 @@ function showProgress(ev, filename, fileid) {
         if (value >= 100) {
             hideLoading();
             if (fileid) {
+                console.log(filename + " loaded.")
                 angular.element($("body")).scope().loadCompleted(fileid);
                 LOADED[filename] = true;
+                $("#btn-group-" + fileid)[0].classList.toggle("open", true);
             }
             setTimeout( function(){
                 LOADING = false;

@@ -62,20 +62,6 @@
                 <span class="glyphicon glyphicon-plus-sign"></span>
             </a>
 
-            <script>
-                function loaddata() {
-    //                 debugger;
-                    gv = new GenomeViewer.ChromosomeViewer();
-                    preload((document.selectform.assembly.options[document.selectform.assembly.selectedIndex].value),'cytoband');
-                    setTimeout( function() {
-                        $("#add").click();
-                        $("#view_type option").remove();
-                        LOADING= false;
-                    }, 100 );
-                    LOADING= false;
-                }
-            </script>
-
         </form>
     </div>
 
@@ -121,7 +107,7 @@
 
             <div class="inline-block" ng-repeat="file in fileType.files">
             <div class="panel">
-            <div class="btn-group">
+            <div class="btn-group" id="btn-group-{{file.fileid}}">
 
                 <button class="btn files" ng-click="preload( file.filename, fileType.type, undefined, file.fileid );" ng-class="loadedFiles[file.fileid] ? 'bg-success' :'btn-default'">
                     {{file.fileid}}
@@ -170,16 +156,6 @@
                 </select>
             </span>
             <input type="button" id="add" value="Confirm" disabled="true" _onclick="addTrack();">
-<!--
-            <script>
-                function addTrack(e) {
-                    //debugger;
-                    document.getElementById('genomesvg').style.border = '0.2em groove silver';
-                    var elements = document.getElementsByClassName('hide_');
-                    for (var e in elements) {if(elements[e].style) elements[e].style.display = 'block';}
-                }
-            </script>
--->
         </p>
 
         <p id="parsers" style="display:none"></p>
@@ -193,6 +169,12 @@
     <ul id="pcfiles-list">
         <li id="pcfiles-list-first"><h5>No files available yet.</h5></li>
     </ul>
+</div>
+
+<!-- ************************************************************** -->
+
+</div>
+</div>
 </div>
 
 <!-- ************************************************************** -->
@@ -261,12 +243,30 @@
     <a href="javascript:changeLabel ();"><div class="list-group-item">Change label... </div></a>
 </div>
 
+
+<div class="modal fade" id="id_color_modal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Choose Colour</h4>
+            </div>
+
+            <div class="modal-body">
+                <input id="id_color" type="color" value="#008000">
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" >Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="setColor();">OK</button>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <!-- ************************************************************** -->
-
-</div>
-</div>
-</div>
-
 
 <!-- Javascript files -->
 <script src="bower/jquery/jquery.min.js"></script>
