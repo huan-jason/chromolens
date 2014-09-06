@@ -35,11 +35,16 @@ var Histogram;
             .attr("x", 0)
             .attr("y", 10)
             .attr("class", "track_label")
-            .text(name);
+            .text(CURRENT_OBJ.fileid);
             var ob = this.svg.append("foreignObject").attr("width", this.width).attr("height", this.height);
             this.canvas = ob.append("xhtml:canvas").attr("width", this.width).attr("height", this.height);
             this.drawContext = (this.canvas.node()).getContext("2d");
             this.iter = iter;
+            this.fileid = CURRENT_OBJ.fileid;
+            this.type   = CURRENT_OBJ.type;
+            if (!TRACKS[this.fileid]) TRACKS[this.fileid] = {};
+            TRACKS[this.fileid][this.type] = name;
+            PANELS[name] = { fileid:this.fileid, type:this.type };
         }
         AbstractHistogramPanel.prototype.getMinSize = function () {
             return [600, 40];

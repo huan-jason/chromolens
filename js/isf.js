@@ -322,12 +322,17 @@ var ISF;
             .attr("x", 0)
             .attr("y", -35)
             .attr("class", "track_label")
-            .text(name);
+            .text(CURRENT_OBJ.fileid);
             this.g_line = this.svg.append("line").attr("x1", 0).attr("x2", 0).attr("y1", 0).attr("y2", 0).attr("style", "stroke:rgb(255,0,0);stroke-width:2");
             this.g_arcs = this.svg.append("g").attr("class", "arcs");
             this.g_dd_arcs = this.svg.append("g").attr("class", "dd_arcs");
             this.g_ii_arcs = this.svg.append("g").attr("class", "ii_arcs");
             this.g_bindings = this.svg.append("g").attr("class", "bindings");
+            this.fileid = CURRENT_OBJ.fileid;
+            this.type   = CURRENT_OBJ.type;
+            if (!TRACKS[this.fileid]) TRACKS[this.fileid] = {};
+            TRACKS[this.fileid][this.type] = name;
+            PANELS[name] = { fileid:this.fileid, type:this.type };
         }
         isfPanel.prototype.setSize = function (w, h) {
             _super.prototype.setSize.call(this, w, h);

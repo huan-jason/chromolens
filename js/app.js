@@ -161,14 +161,22 @@ var phonecatApp = angular.module('chromolens', [])
         };
 
         $scope.addTrack = function(e, file, type) {
-            if (!e.target.checked) return;
-            var viewType = $("#view_type");
-            var option   = viewType.children().filter( function() {
-                return $(this).text() == type;
-            });
-            if (!option) viewType.append( "<option selected>"+type+"</option>" );
-            else         option.attr("selected", "selected");
-            $("#add").click();
+            if (e.target.checked) {
+                var viewType = $("#view_type");
+                var option   = viewType.children().filter( function() {
+                    return $(this).text() == type;
+                });
+                if (!option) viewType.append( "<option selected>"+type+"</option>" );
+                else         option.attr("selected", "selected");
+                CURRENT_OBJ.fileid = file.fileid;
+                CURRENT_OBJ.type   = type;
+                $("#add").click();
+            } else {
+                var trackid = TRACKS[file.fileid][type];
+                var elems   = $("#"+trackid);
+                closeTrack(elems[0]);
+                TRACKS[file.fileid][type] = null;
+            }
         };
 
         $scope.addUploadFile= function(file) {

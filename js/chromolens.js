@@ -3,6 +3,13 @@
 var gv;
 var LOADED  = {};
 var LOADING = false;
+var RIGHT_CLICK_ELEMENT = null;
+var MOVE_SOURCE         = null;
+var CURRENT_OBJ         = {};
+var TRACKS              = {};
+var PANELS              = {};
+
+
 
 function preload(filename, type, content, fileid) {
     if (LOADED[filename])   return;
@@ -171,10 +178,6 @@ function loaddata() {
 // **************************************************************
 // **************************************************************
 
-var RIGHT_CLICK_ELEMENT = null;
-var MOVE_SOURCE         = null;
-var NODES               = [];
-
 function getPanels() {
     return gv.viewsByName.get("MainPanel").panels[0].panels;
 }
@@ -264,9 +267,13 @@ $("body").on("click", function(e) {
 // =======================================================================
 // Context menu
 
-function closeTrack() {
-    var elem = RIGHT_CLICK_ELEMENT;
-    var eid = elem.id;
+function closeTrack(elem) {
+    if (!elem) {
+        elem = RIGHT_CLICK_ELEMENT;
+        var panel = PANELS[elem.id];
+        $("#input-cb-" + panel.fileid + "-" + panel.type)[0].checked = false;
+    }
+    var eid  = elem.id;
 
     var powerpanel  = gv.viewsByName.get("MainPanel").panels[0];
     var panels      = powerpanel.panels;

@@ -4,6 +4,8 @@
 <head>
 <title>ChromoLens</title>
 <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon"       href="img/favicon-32.png" sizes="32x32" />
 <link rel="stylesheet" href="bower/jqueryui/themes/smoothness/jquery-ui.min.css" />
 <link rel="stylesheet" href="bower/bootstrap/dist/css/bootstrap.min.css">
@@ -35,6 +37,7 @@
                 ng-change="setDefaultAssembly();"
                 ng-options="name for (name, data) in genomes"
                 ng-disabled="loaded"
+                title="Genome"
             ></select>
 
             <select
@@ -45,6 +48,7 @@
                 ng-options="a as a.assembly for a in genomes[genome.name].assemblies track by a.file"
                 ng-change="getChromosomes();"
                 ng-disabled="loaded"
+                title="Assembly"
             ></select>
 
             <select
@@ -54,6 +58,7 @@
                 ng-model="chromosome"
                 ng-options="c for c in genome.chromosomes track by c"
                 ng-disabled="loaded"
+                title="Chromosome"
             ></select>
 
             <input type="button" class="btn btn-primary" name="load" id="load" value="Load" ng-hide="loaded" ng-click="load()" onclick="loaddata();" title="Load genome">
@@ -97,9 +102,12 @@
 
     <div class="panel panel-primary" ng-repeat="fileType in files">
 
-        <div class="panel-heading">
+        <div class="panel-heading file-type">
             <a data-toggle="collapse" data-target="#id-panel-{{fileType.type}}">
-                <h4 class="files-header" ng-bind="fileType.title"></h4>
+                <h4 class="files-header">
+                    {{fileType.title}}
+                    <!--<span class="glyphicon glyphicon-chevron-left pull-right"></span>-->
+                </h4>
             </a>
         </div>
 
@@ -113,15 +121,15 @@
                     ng-click="preload( file.filename, fileType.type, undefined, file.fileid );"
                     ng-class="loadedFiles[file.fileid] ? 'bg-success' :'btn-default'"
                     >{{file.fileid}}
-                </button>
-                <button type="button" class="btn bg-success dropdown-toggle" data-toggle="dropdown" ng-show="loadedFiles[file.fileid]">
-                    <span class="caret"></span>
+<!--                </button>
+                <button type="button" class="btn bg-success dropdown-toggle" data-toggle="dropdown" ng-show="loadedFiles[file.fileid]">-->
+                    <span class="caret" ng-class="{'loaded':loadedFiles[file.fileid]}"></span>
                 </button>
 
                 <ul class="panelType dropdown-menu" ng-show="loadedFiles[file.fileid]">
                     <li ng-repeat="panelType in panels[ file.type || fileType.type ]">
                         <label>
-                            <input type="checkbox" value="panelType.value" ng-click="addTrack($event, file, panelType.value)">
+                            <input id="input-cb-{{file.fileid}}-{{panelType.value}}" type="checkbox" value="panelType.value" ng-click="addTrack($event, file, panelType.value)">
                             {{panelType.title}}
                         </label>
                     </li>
@@ -151,7 +159,7 @@
         <p>
             Add view of type
             <select type="genomechoice" id="view_type" ></select>
-            <span class="hidev2">
+            <span class="hide">
                 to
                 <select type="genomechoice" id="dest_view" >
                     <option value="new">a new view</option>
