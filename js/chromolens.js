@@ -1,5 +1,161 @@
 "use strict";
 
+var LOADED  = {};
+var LOADING = false;
+
+function preload(filename, type, content, fileid) {
+    if (LOADED[filename])   return;
+    if (LOADING)            return;
+    LOADING = true;
+    showLoading();
+    Views.mainView.getSubView('modelsView').loadFile(filename, type, content, fileid);
+    hideLoading();
+}
+
+function setOptions(genomechoice) {
+}
+
+function displayfiles(genomechoice) {
+}
+
+// **************************************************************
+
+(function($){
+
+    var body = $(document.body),
+    modal = $('#dropfile-modal'),
+    re = /\.(\w+)$/,
+    files = [],
+    SELECT;
+
+    SELECT =  "<select class='uploaded-select'>";
+    SELECT += "<option value='bedGraph' data-search='bedgraph'>bedgraph</option>";
+    SELECT += "<option value='gff3' data-search='gff'>gff</option>";
+    SELECT += "<option value='isf' data-search='isf'>isf</option>";
+    SELECT += "<option value='cytoband' data-search='txt'>txt</option>";
+    SELECT += "</select>";
+
+    body.on('dragenter', function(ev){
+        modal.fadeIn();
+        return false;
+    });
+
+
+    body.on("dragover", function(ev){
+        return false;
+    });
+
+    modal.on('click', function(ev){
+        ev.preventDefault();
+        modal.fadeOut();
+        return false;
+    });
+
+    modal.on('drop', function(ev){
+        ev.preventDefault();
+        modal.fadeOut();
+
+        addFileToList(ev.originalEvent.dataTransfer.files[0]);
+        return false;
+    });
+
+    $('#pcfile').on('change', function(ev){
+        addFileToList(ev.currentTarget.files[0]);
+        ev.currentTarget.value = '';
+    });
+
+    function addFileToList(file){
+
+        function getType(filename) {
+            var ext = filename.split(".");
+            if (ext.length < 2) return false;
+    ext = ext[ext.length - 1].toLowerCase();
+    var types = {
+        isf :       "isf",
+    bedgraph :  "bedGraph",
+    };
+    return types[ext];
+        }
+
+        $('#pcfiles-list-first').hide();
+        files.push(file);
+        var types = {
+            isf :       "isf",
+    bedgraph :  "bedGraph",
+        };
+        loadFile( file, getType(file.name) );
+        //         updateFileList();
+    }
+
+    function updateFileList(){
+        var list = $('#pcfiles-list');
+
+        $.each(files, function(i, file){
+            if( file.__added === true ){
+                return;
+            }
+            file.__added = true;
+
+            var li = $('<li>'),
+                a = $('<input>').attr("type", 'button'),
+                select = $(SELECT),
+                type;
+
+                if( re.test(file.name) ){
+                    type = re.exec(file.name)[1];
+                    var x = select.find('[data-search="'+type+'"]');
+                    select.find('[data-search="'+type+'"]').attr('selected', 'selected');
+                }
+
+                a.attr('data-fileindex', i);
+                a.val(file.name);
+
+                a.on('click', function(ev){
+                    var currentTarget = ev.currentTarget;
+                    var select = currentTarget.nextElementSibling;
+                    loadFileByIndex(currentTarget.getAttribute('data-fileindex'), select.value);
+                    currentTarget.disabled = true;
+                    currentTarget.classList.toggle("bg-success", true);
+                    currentTarget.classList.toggle("loaded", true);
+                    select.disabled = true;
+                });
+
+                li.append(a);
+                li.append(select);
+                list.append( li );
+        });
+    }
+
+    function loadFileByIndex(index, type){
+        var file = files[index],
+    reader = new FileReader();
+
+    reader.onprogress = showProgress;
+
+    reader.onload = function (event) {
+        preload(file.name, type, event.target.result);
+        LOADING = false;
+        $("#add").click();
+    };
+
+    reader.readAsText(file);
+    }
+
+
+    function loadFile(file, type){
+        var reader = new FileReader();
+        reader.onprogress = showProgress;
+        reader.onload = function (event) {
+            preload(file.name, type, event.target.result);
+            LOADING = false;
+            angular.element($("body")).scope().addUploadFile(file);
+        };
+        reader.readAsText(file);
+    }
+
+})(jQuery);
+
+// **************************************************************
 
 function isPanel(elem) {
     var panelTypes = [
