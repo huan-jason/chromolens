@@ -4,24 +4,24 @@
 <head>
 <title>ChromoLens</title>
 <meta charset="utf-8" />
-<link rel="icon" href="img/favicon-32.png" sizes="32x32" />
-<link rel="stylesheet" type="text/css" href="css/chromolens.css" />
-<link rel="stylesheet" type="text/css" href="bower/jqueryui/themes/smoothness/jquery-ui.min.css" />
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link   type="text/css" rel="stylesheet" href="css/jh.css"/>
-<script src="js/angular.min.js"></script>
+<link rel="icon"       href="img/favicon-32.png" sizes="32x32" />
+<link rel="stylesheet" href="bower/jqueryui/themes/smoothness/jquery-ui.min.css" />
+<link rel="stylesheet" href="bower/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/chromolens.css" />
+<script src="bower/angularjs/angular.min.js"></script>
 <script src="js/app.js"></script>
 </head>
 
 
 
-<body  ng-dblclick="showVT=!showVT">
-<div class="container">
+<body>
+<div class="container-fluid">
 <div class="row">
 <div class="col-xs-12">
 
 <div class="header text-center">
     <div id="CSItitle" class="title pull-right"><a href="http://www.csi.nus.edu.sg/"><img src="img/NUS-CSI.svg" alt="NUS|CSI logo" id="CSIlogo" title="NUS | CSI"></a></div>
+    <div id="ChromoLensTitle" ng-dblclick="showVT=!showVT"><img src="img/logo.svg" alt="ChromoLens logo" id="ChromoLensLogo" title="ChromoLens"></div>
 
     <div id="genomechoice" class="pull-left">
         <form name="selectform" class="form-inline">
@@ -77,8 +77,6 @@
         </form>
     </div>
 
-    <div id="ChromoLensTitle" class=""><img src="img/logo.svg" alt="ChromoLens logo" id="ChromoLensLogo" title="ChromoLens"></div>
-
 </div><!-- header -->
 
 
@@ -121,11 +119,11 @@
 
         <div id="id-panel-{{fileType.type}}" class="panel-body collapse">
 
-            <div class="col-xs-3" ng-repeat="file in fileType.files">
+            <div class="inline-block" ng-repeat="file in fileType.files">
             <div class="panel">
             <div class="btn-group">
 
-                <button class="btn" ng-click="preload( file.filename, fileType.type, undefined, file.fileid );" ng-class="loadedFiles[file.fileid] ? 'bg-success' :'btn-default'">
+                <button class="btn files" ng-click="preload( file.filename, fileType.type, undefined, file.fileid );" ng-class="loadedFiles[file.fileid] ? 'bg-success' :'btn-default'">
                     {{file.fileid}}
                 </button>
                 <button type="button" class="btn bg-success dropdown-toggle" data-toggle="dropdown" ng-show="loadedFiles[file.fileid]">
@@ -148,10 +146,12 @@
         </div><!-- panel-body -->
     </div><!-- panel -->
 
-<p class="upload-container">
-    <input type="file" id="pcfile">
-</p>
-<div id="dropfile-modal"></div>
+
+
+    <p class="upload-container">
+        Upload file: <input class="inline-block" type="file" id="pcfile">
+    </p>&nbsp;
+    <div id="dropfile-modal"></div>
 
 </div><!-- files -->
 
@@ -250,10 +250,9 @@
         </p>
     </form>
 
-<ul id="pcfiles-list">
-    <li id="pcfiles-list-first"><h5>No files available yet.</h5></li>
-</ul>
-
+    <ul id="pcfiles-list">
+        <li id="pcfiles-list-first"><h5>No files available yet.</h5></li>
+    </ul>
 </div>
 
 
@@ -443,7 +442,7 @@ function displayfiles(genomechoice) {
 </script>
 
 
-<script src="js/bootstrap.min.js"></script>
+<script src="bower/bootstrap/dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/jh.js"></script>
 
 <style id="id_style1"></style>

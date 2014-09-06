@@ -13,32 +13,7 @@ body{
     background-attachment: fixed;
 }
 
-/*
-#title{
-    position: absolute;
-    height: 10%;
-    min-height: 10em;
-    max-height: 20em;
-    width: 100vw;
-}
-*/
-
-#ChromoLensIconTitle{
-/*     display:none; */
-/*     position: fixed; */
-/*     top: 2em; */
-/*     left: 2em; */
-/*     min-width: 5em; */
-/*     width: 8%; */
-/*     max-width: 10em; */
-}
-
 #ChromoLensTitle{
-/*     position: fixed; */
-/*     top: 2em; */
-/*     left: 50%; */
-/*     width: 20%; */
-/*     margin-left: -10em; */
     height: 10%;
     min-width: 10em;
     max-width: 20em;
@@ -46,8 +21,6 @@ body{
 }
 
 #CSItitle{
-/*     position: fixed; */
-/*     right: 2em; */
     width: 20%;
     min-width: 10em;
     max-width: 20em;
@@ -55,33 +28,6 @@ body{
 
 #ChromoLensLogo, #CSIlogo, #ChromoLensIcon{
     width: 100%;
-}
-
-#genomechoice{
-/*     position: absolute; */
-/*     top: 10em; */
-/*     left: 50%; */
-/*     width: 20%; */
-/*     min-width: 10em; */
-/*     max-width: 20em; */
-/*     margin-left: -10em; */
-}
-
-#ChromoLens {
-/*     position: relative; */
-/*     left: 12em; */
-/*     top : 2em; */
-/*     right: 20em; */
-}
-
-svg.genome {
-/*
-    -moz-border-radius: 1em;
-    -webkit-border-radius: 1em;
-    -khtml-border-radius: 1em;
-    border-radius: 1em;
-    width: auto;
-*/
 }
 
 .view {
@@ -161,7 +107,6 @@ g.ticklabels text {
     background:#fff4c8;
     border: 0.08em solid black;
     padding:0 1em;
-/*     width:12em; */
 
     display:none;
     background-color: white;
@@ -328,9 +273,108 @@ button, select, input {
     margin:0;
 }
 .files.btn {
-    width:100%;
+    min-width:10em;
 }
 .files label {
     font-weight:normal;
 }
 
+
+
+
+
+
+#genomesvg {
+border:outset thin silver;
+}
+#id_ctx_menu {
+font-family: "Arial Narrow", Arial, sans-serif;
+font-size:smaller;
+display:none;
+position:fixed;
+border:solid thin grey;
+background-color:lightgrey;
+padding:0.5em;
+z-index:999;
+border:outset thin silver;
+}
+#id_ctx_menu {
+padding:0;
+}
+#id_ctx_menu div {
+padding:0.5em;
+border:0;
+border-radius:0;
+}
+#id_ctx_menu div:hover {
+background-color:lightgrey;
+}
+#id_ctx_menu a {
+text-decoration:none;
+color:black;
+}
+#id_color_modal {
+display:none;
+position:fixed;
+border:solid thin grey;
+background-color:lightgrey;
+padding:2em;
+z-index:999;
+top:25%;
+left:45%;
+}
+#view {
+position:relative;
+}
+text.track_label {
+    fill:blue;
+    text-anchor: middle;
+}
+
+.drag-bar {
+    stroke:silver;
+    stroke-width:9;
+}
+
+.hidev2 {
+    display:none;
+}
+.panel * {
+    font-size:1em;
+}
+.panel-heading a {
+    color:white;
+    text-decoration:none;
+}
+ul.panelType {
+    padding-left:0.5em;
+}
+ul.panelType * {
+    font-size:0.9em;
+}
+.files .panel-heading {
+    padding:0;
+}
+.files-header {
+    padding:1em;
+}
+#genomechoice {
+margin-top:2em;
+}
+
+line.drag-bar {
+    stroke-linecap: round;
+}
+.inline-block, input.inline-block {
+    display:inline-block;
+}
+#pcfiles {
+    margin-bottom:2em;
+}
+.dropdown-toggle {
+    margin-right:0.5em;
+}
+button.files,
+.dropdown-toggle {
+    border:solid thin lightgrey;
+}
