@@ -133,6 +133,7 @@ var Histogram;
                     min = 0;
                 }
                 var max = value[1] / this.globalMax[1];
+console.log(pos, min, max, end, 20 - 20 * max, end - pos, (max - min) * 20);
                 this.drawContext.fillRect(pos, 20 - 20 * max, end - pos, (max - min) * 20);
             }
             pos = end;

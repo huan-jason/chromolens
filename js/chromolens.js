@@ -207,6 +207,7 @@ function chkRightClick(e) {
         $("#id_ctx_menu").css({ "top":e.screenY - 90, "left":e.screenX });
         $("#id_ctx_menu").css("display", "block");
         RIGHT_CLICK_ELEMENT = e.currentTarget.parentNode;
+        angular.element($("body")).scope().rightClick(RIGHT_CLICK_ELEMENT);
         return true;
     }
 }
@@ -331,3 +332,4 @@ function setColor() {
 
 // =======================================================================
 
+var count

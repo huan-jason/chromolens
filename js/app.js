@@ -179,6 +179,16 @@ var phonecatApp = angular.module('chromolens', [])
             }
         };
 
+        $scope.rightClick = function(elem) {
+            $scope.$apply( function() {
+                $scope.rcOptions = 0;
+                console.log(elem.classList.contains("isfPanel"), elem)
+                if ( elem.classList.contains("isfPanel") ) {
+                    $scope.rcOptions = 1;
+                };
+            });
+        };
+
         $scope.addUploadFile= function(file) {
             $scope.$apply( function() {
 
