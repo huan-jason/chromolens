@@ -44,7 +44,7 @@ function showProgress(ev, filename, fileid) {
             }
             setTimeout( function(){
                 LOADING = false;
-            }, ev.total/25000 );
+            }, ev.total/50000 );
         }
     }
 }

@@ -61,9 +61,9 @@
                 title="Chromosome"
             ></select>
 
-            <input type="button" class="btn btn-primary" name="load" id="load" value="Load" ng-hide="loaded" ng-click="load()" onclick="loaddata();" title="Load genome">
+            <input type="button" class="btn btn-primary" name="load" id="load" value="Load" ng-hide="loaded" ng-click="load()" onclick="loaddata();" title="Load genome" disabled>
 
-            <a class="btn btn-primary" ng-show="loaded" onclick="window.open(window.location.href)" target="_blank" title="New Chromolens tab">
+            <a class="btn btn-default" ng-show="loaded" onclick="window.open(window.location.href)" target="_blank" title="New Chromolens tab">
                 <span class="glyphicon glyphicon-plus-sign"></span>
             </a>
 
@@ -245,11 +245,12 @@
 </div>
 
 
-<div id="id_ctx_menu">
-    <a href="javascript:closeTrack();" ><div class="list-group-item">Close           </div></a>
-    <a href="javascript:label_modal();"><div class="list-group-item">Change label... </div></a>
-    <a href="javascript:$('#id_color_modal').modal();" ng-show="rcOptions==1"><div class="list-group-item">Change colour...</div></a>
-</div>
+
+<div id="id_ctx_menu" class="dropdown-menu">
+    <li><a href="javascript:closeTrack();" >Close           </a></li>
+    <li><a href="javascript:label_modal();">Change label... </a></li>
+    <li><a href="javascript:$('#id_color_modal').modal();" ng-show="rcOptions==1">Change colour...</a></li>
+</ul>
 
 
 <div class="modal fade" id="id_color_modal">

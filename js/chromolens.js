@@ -84,27 +84,28 @@ function loaddata() {
         ev.currentTarget.value = '';
     });
 
+    $("#load").removeAttr("disabled");
+
     function addFileToList(file){
 
         function getType(filename) {
             var ext = filename.split(".");
             if (ext.length < 2) return false;
-    ext = ext[ext.length - 1].toLowerCase();
-    var types = {
-        isf :       "isf",
-    bedgraph :  "bedGraph",
-    };
-    return types[ext];
+            ext = ext[ext.length - 1].toLowerCase();
+            var types = {
+                isf :       "isf",
+                bedgraph :  "bedGraph",
+            };
+            return types[ext];
         }
 
         $('#pcfiles-list-first').hide();
         files.push(file);
         var types = {
             isf :       "isf",
-    bedgraph :  "bedGraph",
+            bedgraph :  "bedGraph",
         };
         loadFile( file, getType(file.name) );
-        //         updateFileList();
     }
 
     function updateFileList(){
@@ -163,6 +164,10 @@ function loaddata() {
 
 
     function loadFile(file, type){
+        if (type === undefined) {
+            alert("Unknown file type");
+            return;
+        };
         var reader = new FileReader();
         reader.onprogress = showProgress;
         reader.onload = function (event) {

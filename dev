@@ -1,1 +1,2 @@
-(cd ~; ionic serve)
+xdg-open http://localhost:8100
+livereload_

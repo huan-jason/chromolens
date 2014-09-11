@@ -131,6 +131,10 @@ var GenomeViewer;
                 showLoading();
                 var req = new XMLHttpRequest();
                 req.onload = function () {
+                    if (this.responseText.substr(0,10) == "Cannot GET") {
+                        alert( "Cannot load file '" + filename + "'." );
+                        return;
+                    }
                     self.loadFile(filename, parser_type, this.responseText);
                 };
                 req.open("get", filename, true);
