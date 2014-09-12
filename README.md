@@ -9,11 +9,11 @@ Go to http://howtonode.org/how-to-install-nodejs and follow the instructions.
 #### 2 - Install Gulp globally
 <code>npm install -g gulp</code>
 
-#### 3 - Install all dependencies 
+#### 3 - Install all dependencies
 <code>npm install</code>
 
-#### 4 - Update the project
-<code>gulp update</code>
+#### 4 - Install libraries
+<code>bower install</code>
 
 
 ## Compiling the project
