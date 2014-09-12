@@ -8,7 +8,9 @@ npm-debug.log
 
 # Compiled files
 #js/
-files/
+files/*
+!files/*.txt
+!files/*.isf
 
 all_interfaces.js
 doc/
