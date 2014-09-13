@@ -157,7 +157,7 @@ var phonecatApp = angular.module('chromolens', [])
         $scope.loadCompleted = function(fileid) {
             $scope.$apply( function() {
                 $scope.loadedFiles[fileid] = true;
-            })
+            });
         };
 
         $scope.addTrack = function(e, file, type) {
@@ -184,7 +184,7 @@ var phonecatApp = angular.module('chromolens', [])
                 $scope.rcOptions = 0;
                 if ( elem.classList.contains("isfPanel") ) {
                     $scope.rcOptions = 1;
-                };
+                }
             });
         };
 
@@ -209,8 +209,8 @@ var phonecatApp = angular.module('chromolens', [])
                         if (uploads.files[i].fileid == file.name ) {
                             uploaded = true;
                             break;
-                        };
-                    };
+                        }
+                    }
                     if (!uploaded) {
                         uploads.files.push({
                             fileid:     file.name,
@@ -219,10 +219,10 @@ var phonecatApp = angular.module('chromolens', [])
                         });
                         $scope.loadedFiles[file.name] = true;
                         $("#id-panel-Upload").collapse("show");
-                    };
-                };
+                    }
+                }
 
-            })
+            });
         };
 
     }

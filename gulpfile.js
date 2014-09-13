@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
     exec = require('child_process').exec,
-    spawn = require('child_process').spawn;
+    spawn = require('child_process').spawn,
+    jshint = require('gulp-jshint');
 
 /**
  * The default task
@@ -46,3 +47,13 @@ gulp.task('serve', function(){
     });
     console.log('open http://localhost:8000');
 });
+
+
+// Lint Task
+gulp.task('lint', function() {
+    return gulp.src(['js/*.js','!js/*.min.js'])
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
+});
+
+

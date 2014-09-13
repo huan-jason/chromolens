@@ -8,7 +8,7 @@ var MOVE_SOURCE         = null;
 var CURRENT_OBJ         = {};
 var TRACKS              = {};
 var PANELS              = {};
-
+var count;
 
 
 function preload(filename, type, content, fileid) {
@@ -167,7 +167,7 @@ function loaddata() {
         if (type === undefined) {
             alert("Unknown file type");
             return;
-        };
+        }
         var reader = new FileReader();
         reader.onprogress = showProgress;
         reader.onload = function (event) {
@@ -189,7 +189,7 @@ function getPanels() {
 
 function refresh() {
     var mp = gv.viewsByName.get("MainPanel");
-    var pp = mp.panels[0]
+    var pp = mp.panels[0];
     mp.invalidated = true;
     pp.invalidated = true; // PowerPanel
     pp.panels.forEach( function(p) {
@@ -287,11 +287,11 @@ function closeTrack(elem) {
 
     for (var i=0, len=panels.length; i<len; i++) {
         if (panels[i].name == eid) {
-        var panel = panels.splice(i, 1);
+        panel = panels.splice(i, 1);
         refresh();
         return panel;
         }
-    };
+    }
 }
 
 // ================
@@ -329,7 +329,7 @@ function setColor() {
     var elem = RIGHT_CLICK_ELEMENT;
     if (!elem) return;
     var color       = $("#id_color").val();
-    var styleelem   = $("#id_style1")
+    var styleelem   = $("#id_style1");
     var style       = "#" + elem.getAttribute("id") + " .ii_arcs path { stroke: " + color + ";}";
     styleelem.html( styleelem.html() + style );
     $('#id_color_modal').modal("hide");
@@ -337,4 +337,3 @@ function setColor() {
 
 // =======================================================================
 
-var count
