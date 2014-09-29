@@ -162,12 +162,17 @@ var phonecatApp = angular.module('chromolens', [])
 
         $scope.addTrack = function(e, file, type) {
             if (e.target.checked) {
+                $("#filenames").children().each( function() {
+                    var option = $(this);
+                    if (option.html() == file.filename) option.attr("selected", "selected");
+                    else                                option.removeAttr("selected");
+                });
                 var viewType = $("#view_type");
                 var option   = viewType.children().filter( function() {
                     return $(this).text() == type;
                 });
-                if (!option) viewType.append( "<option selected>"+type+"</option>" );
-                else         option.attr("selected", "selected");
+                if ( option.length ) option.attr("selected", "selected");
+                else                 viewType.append( "<option selected>"+type+"</option>" );
                 CURRENT_OBJ.fileid = file.fileid;
                 CURRENT_OBJ.type   = type;
                 $("#add").click();
