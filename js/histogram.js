@@ -126,14 +126,24 @@ var Histogram;
         function HistogramPanel() {
             _super.apply(this, arguments);
         }
+
         HistogramPanel.prototype.draw = function (pos, end, value) {
             if (value[0] < 0 || value[1] > 0) {
+
                 var min = -value[0] / this.globalMax[0];
                 if (value[0] == 0) {
                     min = 0;
                 }
-                var max = value[1] / this.globalMax[1];
-console.log(pos, min, max, end, 20 - 20 * max, end - pos, (max - min) * 20);
+
+                this.drawContext.fillStyle="#000000";
+                var maxY = HISTOGRAM_CUTOFF || this.globalMax[1];
+                var val  = value[1];
+                if (val > maxY) {
+                    val = maxY;
+                    this.drawContext.fillStyle="#FF0000";
+                }
+                var max  = val / maxY;
+
                 this.drawContext.fillRect(pos, 20 - 20 * max, end - pos, (max - min) * 20);
             }
             pos = end;

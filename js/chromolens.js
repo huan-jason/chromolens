@@ -8,6 +8,7 @@ var MOVE_SOURCE         = null;
 var CURRENT_OBJ         = {};
 var TRACKS              = {};
 var PANELS              = {};
+var HISTOGRAM_CUTOFF    = null;
 var count;
 
 
