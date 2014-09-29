@@ -84,8 +84,6 @@ function loaddata() {
         ev.currentTarget.value = '';
     });
 
-    $("#load").removeAttr("disabled");
-
     function addFileToList(file){
 
         function getType(filename) {
@@ -337,3 +335,6 @@ function setColor() {
 
 // =======================================================================
 
+$(function() {
+    $("#load").removeAttr("disabled");
+});
