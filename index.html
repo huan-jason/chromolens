@@ -83,10 +83,13 @@
     </div>
 
     <br class="clearfix">
-    <div class="col-xs-1 focus_info" >Focus:</div>
-    <div class="col-xs-2 focus_info" ><span id="focus_detail">N/A</span></div>
-    <div class="col-xs-1 focus_info col-offset-xs-1" >Zoom:</div>
-    <div class="col-xs-2 focus_info" ><span id="zoom_detail">N/A</span></div>
+    <div class="col-xs-6 focus_info" >
+        Focus:
+        <span id="focus_detail" ng-bind="focus_detail | number:0">N/A</span>
+        &emsp;
+        Zoom:
+        <span id="zoom_detail">N/A</span>
+    </div>
 </div>
 
 <div id="view" ng-cloak ng-show="loaded">
