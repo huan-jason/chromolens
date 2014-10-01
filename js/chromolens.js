@@ -11,6 +11,7 @@ var PANELS              = {};
 var HISTOGRAM_CUTOFF    = null;
 var count;
 
+// **************************************************************
 
 function preload(filename, type, content, fileid) {
     if (LOADED[filename])   return;
@@ -208,6 +209,7 @@ function isRightClick(e) {
 function chkRightClick(e) {
     if ( isRightClick(e) ) {
         e.preventDefault();
+        e.stopPropagation();
         $("#id_ctx_menu").css({ "top":e.screenY - 90, "left":e.screenX });
         $("#id_ctx_menu").css("display", "block");
         RIGHT_CLICK_ELEMENT = e.currentTarget.parentNode;
@@ -332,6 +334,13 @@ function setColor() {
     var style       = "#" + elem.getAttribute("id") + " .ii_arcs path { stroke: " + color + ";}";
     styleelem.html( styleelem.html() + style );
     $('#id_color_modal').modal("hide");
+}
+
+// ================
+
+function histogramSetXscale() {
+    var val = window.prompt("Enter maximum X axis value:");
+    if ( !isNaN(val) ) HISTOGRAM_CUTOFF = parseFloat(val);
 }
 
 // =======================================================================

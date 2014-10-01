@@ -188,7 +188,10 @@ var phonecatApp = angular.module('chromolens', [])
             $scope.$apply( function() {
                 $scope.rcOptions = 0;
                 if ( elem.classList.contains("isfPanel") ) {
-                    $scope.rcOptions = 1;
+                    $scope.rcOptions = "isfPanel";
+                } else
+                if ( elem.classList.contains("BedGraphHistogramPanel") ) {
+                    $scope.rcOptions = "BedGraphHistogramPanel";
                 }
             });
         };

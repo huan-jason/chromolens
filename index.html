@@ -252,7 +252,8 @@
 <div id="id_ctx_menu" class="dropdown-menu">
     <li><a href="javascript:closeTrack();" >Close           </a></li>
     <li><a href="javascript:label_modal();">Change label... </a></li>
-    <li><a href="javascript:$('#id_color_modal').modal();" ng-show="rcOptions==1">Change colour...</a></li>
+    <li><a href="javascript:$('#id_color_modal').modal();" ng-show="rcOptions=='isfPanel'">Change colour...</a></li>
+    <li><a href="javascript:histogramSetXscale();" ng-show="rcOptions=='BedGraphHistogramPanel'">Set Histogram X Scale...</a></li>
 </ul>
 
 
