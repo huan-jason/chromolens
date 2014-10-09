@@ -346,5 +346,6 @@ function histogramSetXscale() {
 // =======================================================================
 
 $(function() {
+    window.addEventListener( "contextmenu", function(e) { e.preventDefault(); } );
     $("#load").removeAttr("disabled");
 });
